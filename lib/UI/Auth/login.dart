@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:movie_app/UI/Auth/CreateAccount.dart';
 import 'package:movie_app/UI/Auth/Forget%20Password.dart';
+import 'package:movie_app/UI/Navigationbar/HomeNavigationbar.dart';
 import 'package:movie_app/assets/AppColors.dart';
 import 'package:movie_app/assets/Fontspath.dart';
 import 'package:movie_app/assets/ImagePath.dart';
@@ -32,7 +33,7 @@ class _loginState extends State<login> {
 
     if (!_emailError && !_passwordError) {
       _showMessage('Login Successful!');
-      //Navigator.pushNamed(context, Navigationbar.RouteName);
+      Navigator.pushNamed(context, HomeNavigationbar.RouteName);
     }
   }
 

@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:movie_app/UI/Auth/CreateAccount.dart';
 import 'package:movie_app/UI/Auth/Forget%20Password.dart';
 import 'package:movie_app/UI/Auth/login.dart';
+import 'package:movie_app/UI/Navigationbar/HomeNavigationbar.dart';
 import 'package:movie_app/UI/onboarding/onboarding_page1.dart';
 import 'package:movie_app/UI/onboarding/onboarding_page2.dart';
 import 'package:movie_app/UI/onboarding/onboarding_page3.dart';
@@ -52,6 +53,7 @@ class MyApp extends StatelessWidget {
         login.RouteName:(context)=>login(),
         CreateAccount.RouteName:(context)=>CreateAccount(),
         Forget_Password.RouteName:(context)=>Forget_Password(),
+        HomeNavigationbar.RouteName:(context)=>HomeNavigationbar(),
       },
     );
   }

@@ -16,7 +16,8 @@ class ImagePath{
   static const String register2='images/register2.png';
   static const String register3='images/register3.png';
   static const String forgetpassword='images/forgetpassword.png';
-  static const String home='images/home_select.png';
+  static const String home='images/home.png';
+  static const String home_select='images/home_select.png';
   static const String search='images/search.png';
   static const String search_select='images/search_select.png';
   static const String browse='images/browse.png';
