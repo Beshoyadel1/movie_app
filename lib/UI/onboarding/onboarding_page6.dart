@@ -7,6 +7,7 @@ import 'package:movie_app/UI/onboarding/widget_screen_onboarding.dart';
 import 'package:movie_app/assets/AppColors.dart';
 import 'package:movie_app/assets/Fontspath.dart';
 import 'package:movie_app/assets/ImagePath.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class onboarding_page6 extends StatelessWidget {
   static const String RouteName = 'onboarding_page6';
@@ -21,9 +22,9 @@ class onboarding_page6 extends StatelessWidget {
       colorbackground: AppColors.blackcolor,
       description: '',
       background: ImagePath.onboarding6,
-      first_button: 'Finish',
-      firstTitle: 'Start Watching Now',
-      second_button: 'Back',
+      first_button: AppLocalizations.of(context)!.onboarding6_first_button,
+      firstTitle: AppLocalizations.of(context)!.onboarding6_firstTitle,
+      second_button: AppLocalizations.of(context)!.onboarding3_second_button,
       screenview_next: login.RouteName,
     );
   }

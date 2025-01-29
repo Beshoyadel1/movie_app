@@ -134,34 +134,31 @@ class _CreateAccountState extends State<CreateAccount> {
               SizedBox(
                 height: height*0.02,
               ),
-              Container(
-                // padding: EdgeInsets.all(20),
-                child:TextField(
-                  style: TextStyle(color: AppColors.whitecolor),
-                  controller: _passwordController,
-                  obscureText: !_isPasswordVisible,
-                  decoration: InputDecoration(
-                    fillColor: AppColors.graycolor,
-                    filled: true,
-                    errorText: _passwordError != _RepasswordError
-                        ? 'Password and Repassword do not match'
-                        : (_passwordError ? 'Please enter a valid password' : null),
-                    labelText: AppLocalizations.of(context)!.password,
-                    prefixIcon:Image.asset(ImagePath.password),
-                    labelStyle: TextStyle(
-                        color: AppColors.whitecolor
-                    ),
-                    suffixIcon: IconButton(onPressed: (){
-                      setState(() {
-                        _isPasswordVisible = !_isPasswordVisible;
-                      });
-                    },icon:Icon(
-                      _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-                    ),
-                    ),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15)
-                    ),
+              TextField(
+                style: TextStyle(color: AppColors.whitecolor),
+                controller: _passwordController,
+                obscureText: !_isPasswordVisible,
+                decoration: InputDecoration(
+                  fillColor: AppColors.graycolor,
+                  filled: true,
+                  errorText: _passwordError != _RepasswordError
+                      ? 'Password and Repassword do not match'
+                      : (_passwordError ? 'Please enter a valid password' : null),
+                  labelText: AppLocalizations.of(context)!.password,
+                  prefixIcon:Image.asset(ImagePath.password),
+                  labelStyle: TextStyle(
+                      color: AppColors.whitecolor
+                  ),
+                  suffixIcon: IconButton(onPressed: (){
+                    setState(() {
+                      _isPasswordVisible = !_isPasswordVisible;
+                    });
+                  },icon:Icon(
+                    _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                  ),
+                  ),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15)
                   ),
                 ),
               ),
@@ -169,33 +166,31 @@ class _CreateAccountState extends State<CreateAccount> {
               SizedBox(
                 height: height*0.02,
               ),
-              Container(
-                // padding: EdgeInsets.all(20),
-                child:TextField(
-                  style: TextStyle(color: AppColors.whitecolor),
-                  controller: _RepasswordController,
-                  obscureText: !_isRePasswordVisible,
-                  decoration: InputDecoration(
-                    fillColor: AppColors.graycolor,
-                    filled: true,
-                    errorText: _passwordError != _RepasswordError
-                        ? 'Password and Repassword do not match'
-                        : (_passwordError ? 'Please enter a valid password' : null),                    labelText: AppLocalizations.of(context)!.password,
-                    prefixIcon:Image.asset(ImagePath.password),
-                    labelStyle: TextStyle(
-                        color: AppColors.whitecolor
-                    ),
-                    suffixIcon: IconButton(onPressed: (){
-                      setState(() {
-                        _isRePasswordVisible = !_isRePasswordVisible;
-                      });
-                    },icon:Icon(
-                      _isRePasswordVisible ? Icons.visibility : Icons.visibility_off,
-                    ),
-                    ),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15)
-                    ),
+              TextField(
+                style: TextStyle(color: AppColors.whitecolor),
+                controller: _RepasswordController,
+                obscureText: !_isRePasswordVisible,
+                decoration: InputDecoration(
+                  fillColor: AppColors.graycolor,
+                  filled: true,
+                  errorText: _passwordError != _RepasswordError
+                      ? 'Password and Repassword do not match'
+                      : (_passwordError ? 'Please enter a valid password' : null),
+                  labelText: AppLocalizations.of(context)!.re_password,
+                  prefixIcon:Image.asset(ImagePath.password),
+                  labelStyle: TextStyle(
+                      color: AppColors.whitecolor
+                  ),
+                  suffixIcon: IconButton(onPressed: (){
+                    setState(() {
+                      _isRePasswordVisible = !_isRePasswordVisible;
+                    });
+                  },icon:Icon(
+                    _isRePasswordVisible ? Icons.visibility : Icons.visibility_off,
+                  ),
+                  ),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15)
                   ),
                 ),
               ),
@@ -203,23 +198,20 @@ class _CreateAccountState extends State<CreateAccount> {
               SizedBox(
                 height: height*0.02,
               ),
-              Container(
-                //padding: EdgeInsets.all(20),
-                child:TextField(
-                  style: TextStyle(color: AppColors.whitecolor),
-                  controller: _phoneNumberController,
-                  decoration: InputDecoration(
-                    fillColor: AppColors.graycolor,
-                    filled: true,
-                    labelText:'Phone Number',
-                    prefixIcon:Image.asset(ImagePath.phone),
-                    labelStyle: TextStyle(
-                        color: AppColors.whitecolor
-                    ),
-                    errorText: _phoneNumberError ? 'Please enter a valid Phone Number' : null,
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15)
-                    ),
+              TextField(
+                style: TextStyle(color: AppColors.whitecolor),
+                controller: _phoneNumberController,
+                decoration: InputDecoration(
+                  fillColor: AppColors.graycolor,
+                  filled: true,
+                  labelText: AppLocalizations.of(context)!.phone_number,
+                  prefixIcon:Image.asset(ImagePath.phone),
+                  labelStyle: TextStyle(
+                      color: AppColors.whitecolor
+                  ),
+                  errorText: _phoneNumberError ? 'Please enter a valid Phone Number' : null,
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15)
                   ),
                 ),
               ),

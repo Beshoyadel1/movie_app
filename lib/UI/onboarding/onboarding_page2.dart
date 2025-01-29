@@ -7,6 +7,7 @@ import 'package:movie_app/UI/onboarding/widget_screen_onboarding.dart';
 import 'package:movie_app/assets/AppColors.dart';
 import 'package:movie_app/assets/Fontspath.dart';
 import 'package:movie_app/assets/ImagePath.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class onboarding_page2 extends StatelessWidget {
   static const String RouteName = 'onboarding_page2';
@@ -19,11 +20,11 @@ class onboarding_page2 extends StatelessWidget {
     return widget_screen_onboarding(
       screenview_back: onboarding_page1.RouteName,
       colorbackground: AppColors.blackcolor,
-        description: 'Explore a vast collection of movies in all qualities and genres. Find your next favorite film with ease.',
+        description: AppLocalizations.of(context)!.onboarding2_description,
         background: ImagePath.onboarding2,
-        first_button: 'Next',
-        firstTitle: 'Discover Movies',
-        second_button: '',
+        first_button: AppLocalizations.of(context)!.onboarding2_first_button,
+        firstTitle: AppLocalizations.of(context)!.onboarding2_firstTitle,
+        second_button: AppLocalizations.of(context)!.onboarding2_second_button,
         screenview_next: onboarding_page3.RouteName);
   }
 }

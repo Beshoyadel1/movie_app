@@ -55,55 +55,49 @@ class _loginState extends State<login> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Image.asset(ImagePath.logo,height: height*0.3,),
-              Container(
-                //padding: EdgeInsets.all(20),
-                child:TextField(
-                  style: TextStyle(color: AppColors.whitecolor),
-                  controller: _emailController,
-                  decoration: InputDecoration(
-                   fillColor: AppColors.graycolor,
-                    filled: true,
-                    labelText: AppLocalizations.of(context)!.email,
-                    prefixIcon:Image.asset(ImagePath.email),
-                    labelStyle: TextStyle(
-                      color: AppColors.whitecolor
-                    ),
-                    errorText: _emailError ? 'Please enter a valid email' : null,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15)
-                    ),
+              TextField(
+                style: TextStyle(color: AppColors.whitecolor),
+                controller: _emailController,
+                decoration: InputDecoration(
+                 fillColor: AppColors.graycolor,
+                  filled: true,
+                  labelText: AppLocalizations.of(context)!.email,
+                  prefixIcon:Image.asset(ImagePath.email),
+                  labelStyle: TextStyle(
+                    color: AppColors.whitecolor
+                  ),
+                  errorText: _emailError ? 'Please enter a valid email' : null,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15)
                   ),
                 ),
               ),
             SizedBox(
               height: height*0.02,
             ),
-              Container(
-               // padding: EdgeInsets.all(20),
-                child:TextField(
-                  style: TextStyle(color: AppColors.whitecolor),
-                  controller: _passwordController,
-                  obscureText: !_isPasswordVisible,
-                  decoration: InputDecoration(
-                    fillColor: AppColors.graycolor,
-                    filled: true,
-                    errorText: _passwordError ? 'Please enter a password' : null,
-                    labelText: AppLocalizations.of(context)!.password,
-                    prefixIcon:Image.asset(ImagePath.password),
-                    labelStyle: TextStyle(
-                        color: AppColors.whitecolor
-                    ),
-                    suffixIcon: IconButton(onPressed: (){
-                      setState(() {
-                        _isPasswordVisible = !_isPasswordVisible;
-                      });
-                    },icon:Icon(
-                      _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-                    ),
-                    ),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15)
-                    ),
+              TextField(
+                style: TextStyle(color: AppColors.whitecolor),
+                controller: _passwordController,
+                obscureText: !_isPasswordVisible,
+                decoration: InputDecoration(
+                  fillColor: AppColors.graycolor,
+                  filled: true,
+                  errorText: _passwordError ? 'Please enter a password' : null,
+                  labelText: AppLocalizations.of(context)!.password,
+                  prefixIcon:Image.asset(ImagePath.password),
+                  labelStyle: TextStyle(
+                      color: AppColors.whitecolor
+                  ),
+                  suffixIcon: IconButton(onPressed: (){
+                    setState(() {
+                      _isPasswordVisible = !_isPasswordVisible;
+                    });
+                  },icon:Icon(
+                    _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                  ),
+                  ),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15)
                   ),
                 ),
               ),

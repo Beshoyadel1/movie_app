@@ -95,7 +95,7 @@ class _Forget_PasswordState extends State<Forget_Password> {
                     onPressed: (){
                       onPressed: _forgrtpassword();
                     },
-                    child: Text('Verify Email',style: Fontspath.w400Inter20(color: AppColors.graycolor),)),
+                    child: Text(AppLocalizations.of(context)!.verify_email,style: Fontspath.w400Inter20(color: AppColors.graycolor),)),
               ),
             ],
           ),

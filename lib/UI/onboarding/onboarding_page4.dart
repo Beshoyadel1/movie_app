@@ -7,6 +7,7 @@ import 'package:movie_app/UI/onboarding/widget_screen_onboarding.dart';
 import 'package:movie_app/assets/AppColors.dart';
 import 'package:movie_app/assets/Fontspath.dart';
 import 'package:movie_app/assets/ImagePath.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class onboarding_page4 extends StatelessWidget {
   static const String RouteName = 'onboarding_page4';
@@ -19,11 +20,11 @@ class onboarding_page4 extends StatelessWidget {
     return widget_screen_onboarding(
       screenview_back: onboarding_page3.RouteName,
       colorbackground: AppColors.blackcolor,
-      description: 'Save movies to your watchlist to keep track of what you want to watch next. Enjoy films in various qualities and genres.',
+      description: AppLocalizations.of(context)!.onboarding4_description,
       background: ImagePath.onboarding4,
-      first_button: 'Next',
-      firstTitle: 'Create Watch lists',
-      second_button: 'Back',
+      first_button: AppLocalizations.of(context)!.onboarding2_first_button,
+      firstTitle: AppLocalizations.of(context)!.onboarding4_firstTitle,
+      second_button: AppLocalizations.of(context)!.onboarding3_second_button,
       screenview_next: onboarding_page5.RouteName,
     );
   }
