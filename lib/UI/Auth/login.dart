@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:movie_app/UI/Auth/CreateAccount.dart';
 import 'package:movie_app/UI/Auth/Forget%20Password.dart';
@@ -7,6 +8,9 @@ import 'package:movie_app/UI/Navigationbar/HomeNavigationbar.dart';
 import 'package:movie_app/assets/AppColors.dart';
 import 'package:movie_app/assets/Fontspath.dart';
 import 'package:movie_app/assets/ImagePath.dart';
+import 'package:movie_app/bloc/LanguageBloc/language_bloc.dart';
+import 'package:movie_app/bloc/LanguageBloc/language_event.dart';
+import 'package:movie_app/bloc/LanguageBloc/language_state.dart';
 import 'package:movie_app/providers/language_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +50,6 @@ class _loginState extends State<login> {
   Widget build(BuildContext context) {
     var height=MediaQuery.of(context).size.height;
     var width=MediaQuery.of(context).size.width;
-    var providerlanguage=Provider.of<Applanguageprovider>(context);
     return Scaffold(
       backgroundColor: AppColors.blackcolor,
       body: SingleChildScrollView(
@@ -218,35 +221,40 @@ class _loginState extends State<login> {
                         width: 1,
                       ),
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        InkWell(
-                          onTap: (){
-                            providerlanguage.chagelanguage('en');
-                            setState(() {
+                    child: BlocBuilder<LanguageBloc,LanguageState>(
+                      builder: (context,state){
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            InkWell(
+                              onTap: (){
+                                context.read<LanguageBloc>().add(ChangeLanguage('en'));
+                                setState(() {
 
-                            });
-                          },
-                          child: Image.asset(
-                            ImagePath.usa,
-                          ),
-                        ),
-                        SizedBox(width: 15), // Adjust spacing between the flags
-                        InkWell(
-                          onTap: (){
-                            providerlanguage.chagelanguage('ar');
-                            setState(() {
+                                });
+                              },
+                              child: Image.asset(
+                                ImagePath.usa,
+                              ),
+                            ),
+                            SizedBox(width: 15), // Adjust spacing between the flags
+                            InkWell(
+                              onTap: (){
+                                context.read<LanguageBloc>().add(ChangeLanguage('ar'));
+                                setState(() {
 
-                            });
-                          },
-                          child: Image.asset(
-                            ImagePath.egypt,
-                          ),
-                        ),
-                      ],
-                    ),
+                                });
+                              },
+                              child: Image.asset(
+                                ImagePath.egypt,
+                              ),
+                            ),
+                          ],
+                        );
+                      }
+
                   ),
+                    )
                 ],
               )
 

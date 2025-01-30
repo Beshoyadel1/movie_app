@@ -49,6 +49,7 @@ dependencies:
   toggle_switch: ^2.3.0
   flutter_bloc: ^9.0.0
   equatable: ^2.0.7
+  go_router: ^14.7.2
 
 dev_dependencies:
   flutter_test:

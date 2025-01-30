@@ -14,7 +14,6 @@ class _ProfileHomeState extends State<ProfileHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.blackcolor,
-
     );
   }
 }

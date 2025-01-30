@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 
 class Applanguageprovider extends ChangeNotifier{
 
@@ -13,3 +13,4 @@ class Applanguageprovider extends ChangeNotifier{
   }
 
 }
+*/
