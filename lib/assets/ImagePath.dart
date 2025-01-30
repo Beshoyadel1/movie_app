@@ -25,5 +25,17 @@ class ImagePath{
   static const String profile='images/profile.png';
   static const String profile_select='images/profile_select.png';
   static const String google='images/google.png';
+  static const String face1='images/face1.png';
+  static const String face2='images/face2.png';
+  static const String face3='images/face3.png';
+  static const String face4='images/face4.png';
+  static const String face5='images/face5.png';
+  static const String face6='images/face6.png';
+  static const String face7='images/face7.png';
+  static const String face8='images/face8.png';
+  static const String face9='images/face9.png';
+  static const String list='images/list.png';
+  static const String folder='images/folder.png';
+  static const String empty='images/empty.png';
 
 }
