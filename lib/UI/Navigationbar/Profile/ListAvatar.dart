@@ -29,6 +29,7 @@ class ListAvatar extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: List.generate(3, (rowIndex) {
             return Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -45,7 +46,7 @@ class ListAvatar extends StatelessWidget {
                         context.read<ImageBloc>().add(SelectImage(images[index]));
                       },
                       child: Container(
-                        padding: EdgeInsets.all(16),
+                        padding: EdgeInsets.all(10),
                         margin: EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           color: selectedImage == images[index]

@@ -1,0 +1,18 @@
+flutter_native_splash:
+  image: images/splash_screen.png
+  branding: images/brand.png
+  color_dark: "#121312"
+  color: "#121312"
+  image_dark: images/splash_screen.png
+  branding_dark: images/brand.png
+  fullscreen: true
+
+
+  android_12:
+    image: images/splash_screen.png
+    image_dark: images/splash_screen.png
+    color_dark: "#121312"
+    color: "#121312"
+    branding_dark: images/brand.png
+    branding: images/brand.png
+    fullscreen: true

@@ -52,7 +52,6 @@ class MyApp extends StatelessWidget {
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             locale: Locale(state.languageCode),
-            //themeMode: providertheme.apptheme,
             themeMode: ThemeMode.dark,
             initialRoute: onboarding_page1.RouteName,
             routes: {
