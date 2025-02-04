@@ -37,5 +37,21 @@ class ImagePath{
   static const String list='images/list.png';
   static const String folder='images/folder.png';
   static const String empty='images/empty.png';
+  static const String watchnow='images/watchnow.png';
+  static const String AvailableNow='images/AvailableNow.png';
+  static const String film1='images/film1.png';
+  static const String film2='images/film2.png';
+  static const String film3='images/film3.png';
+  static const String film4='images/film4.png';
+  static const String film5='images/film5.png';
+  static const String film6='images/film6.png';
+  static const String film7='images/film7.png';
+  static const String film8='images/film8.png';
+  static const String film9='images/film9.png';
+  static const String film10='images/film10.png';
+  static const String film11='images/film11.png';
+  static const String film12='images/film12.png';
+  static const String star='images/star.png';
+  static const String home_background='images/home_background.png';
 
 }

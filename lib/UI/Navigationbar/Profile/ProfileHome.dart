@@ -10,8 +10,8 @@ import 'package:movie_app/UI/Navigationbar/Profile/Watch%20List.dart';
 import 'package:movie_app/assets/AppColors.dart';
 import 'package:movie_app/assets/Fontspath.dart';
 import 'package:movie_app/assets/ImagePath.dart';
-import 'package:movie_app/bloc/profileBloc/image_bloc.dart';
-import 'package:movie_app/bloc/profileBloc/image_state.dart';
+import 'package:movie_app/bloc/profileBloc/DataProfile_bloc.dart';
+import 'package:movie_app/bloc/profileBloc/DataProfile_state.dart';
 
 class ProfileHome extends StatefulWidget {
   static const String RouteName = 'ProfileHome';
@@ -28,7 +28,7 @@ class _ProfileHomeState extends State<ProfileHome> with SingleTickerProviderStat
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this); // Two icons
+    _tabController = TabController(length: 2, vsync: this);
   }
 
   @override
@@ -41,18 +41,17 @@ class _ProfileHomeState extends State<ProfileHome> with SingleTickerProviderStat
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
+
     return Scaffold(
       backgroundColor: AppColors.graycolor,
-      body: BlocBuilder<ImageBloc, ImageState>(
+      body: BlocBuilder<DataProfileBloc, DataProfileState>(
         builder: (context, state) {
-          String selectedImage = state is ImageSelected
-              ? state.selectedImage
-              : ImagePath.face1;
+          String selectedImage = state is ImageSelectedDataProfile ? state.selectedImage : ImagePath.face1;
+          String userName = state is ProfileUpdated ? state.name : "User"; // Get name from state
+
           return Column(
             children: [
-              SizedBox(
-                height: height * 0.05,
-              ),
+              SizedBox(height: height * 0.05),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -60,20 +59,20 @@ class _ProfileHomeState extends State<ProfileHome> with SingleTickerProviderStat
                     children: [
                       Image.asset(selectedImage),
                       Text(
-                          'John Safwat',
-                          style: Fontspath.w700Inter20(color: AppColors.whitecolor)
+                        userName, // Use dynamic name from state
+                        style: Fontspath.w700Inter20(color: AppColors.whitecolor),
                       ),
                     ],
                   ),
                   Column(
                     children: [
                       Text(
-                          '12',
-                          style: Fontspath.w700Inter36(color: AppColors.whitecolor)
+                        '12',
+                        style: Fontspath.w700Inter36(color: AppColors.whitecolor),
                       ),
                       Text(
-                          'Wish List',
-                          style: Fontspath.w700Inter24(color: AppColors.whitecolor)
+                        'Wish List',
+                        style: Fontspath.w700Inter24(color: AppColors.whitecolor),
                       ),
                     ],
                   ),
@@ -81,11 +80,11 @@ class _ProfileHomeState extends State<ProfileHome> with SingleTickerProviderStat
                     children: [
                       Text(
                         '10',
-                        style:Fontspath.w700Inter36(color: AppColors.whitecolor),
+                        style: Fontspath.w700Inter36(color: AppColors.whitecolor),
                       ),
                       Text(
                         'History',
-                        style:Fontspath.w700Inter24(color: AppColors.whitecolor),
+                        style: Fontspath.w700Inter24(color: AppColors.whitecolor),
                       ),
                     ],
                   ),
@@ -97,15 +96,14 @@ class _ProfileHomeState extends State<ProfileHome> with SingleTickerProviderStat
                     padding: const EdgeInsets.all(10),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: width * 0.18, vertical: height * 0.01),
+                        padding: EdgeInsets.symmetric(horizontal: width * 0.18, vertical: height * 0.01),
                         backgroundColor: AppColors.yellocolor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(13),
                         ),
                       ),
                       onPressed: () {
-                        Navigator.pushNamed(context,EditProfile.RouteName);
+                        Navigator.pushNamed(context, EditProfile.RouteName);
                       },
                       child: Text(
                         'Edit Profile',
@@ -115,15 +113,14 @@ class _ProfileHomeState extends State<ProfileHome> with SingleTickerProviderStat
                   ),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: width * 0.08, vertical: height * 0.01),
+                      padding: EdgeInsets.symmetric(horizontal: width * 0.08, vertical: height * 0.01),
                       backgroundColor: AppColors.redcolor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(13),
                       ),
                     ),
                     onPressed: () {
-                      Navigator.pushNamed(context,login.RouteName);
+                      Navigator.pushNamed(context, login.RouteName);
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -132,19 +129,14 @@ class _ProfileHomeState extends State<ProfileHome> with SingleTickerProviderStat
                           'Exit',
                           style: Fontspath.w500Inter20(color: AppColors.whitecolor),
                         ),
-                        SizedBox(
-                          width: width * 0.02,
-                        ),
-                        Icon(
-                          Icons.login,
-                          color: AppColors.whitecolor,
-                        ),
+                        SizedBox(width: width * 0.02),
+                        Icon(Icons.login, color: AppColors.whitecolor),
                       ],
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: height*0.01), // Optional: Add space before TabBar
+              SizedBox(height: height * 0.01),
               TabBar(
                 controller: _tabController,
                 indicatorColor: AppColors.yellocolor,
@@ -152,18 +144,18 @@ class _ProfileHomeState extends State<ProfileHome> with SingleTickerProviderStat
                 unselectedLabelColor: AppColors.whitecolor,
                 dividerColor: AppColors.graycolor,
                 labelStyle: GoogleFonts.roboto(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.whitecolor
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.whitecolor,
                 ),
                 padding: EdgeInsets.all(10),
                 tabs: [
                   Tab(
-                    icon: Image.asset(ImagePath.list,width: width*0.1,),
+                    icon: Image.asset(ImagePath.list, width: width * 0.1),
                     text: 'Watch List',
                   ),
                   Tab(
-                    icon: Image.asset(ImagePath.folder,width: width*0.1,),
+                    icon: Image.asset(ImagePath.folder, width: width * 0.1),
                     text: 'History',
                   ),
                 ],
@@ -179,7 +171,7 @@ class _ProfileHomeState extends State<ProfileHome> with SingleTickerProviderStat
               ),
             ],
           );
-        }
+        },
       ),
     );
   }

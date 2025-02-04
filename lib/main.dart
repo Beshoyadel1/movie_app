@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:movie_app/UI/Auth/CreateAccount.dart';
 import 'package:movie_app/UI/Auth/Forget%20Password.dart';
 import 'package:movie_app/UI/Auth/login.dart';
+import 'package:movie_app/UI/Navigationbar/Home/Home_Screen.dart';
 import 'package:movie_app/UI/Navigationbar/HomeNavigationbar.dart';
 import 'package:movie_app/UI/Navigationbar/Profile/EditProfile.dart';
 import 'package:movie_app/UI/Navigationbar/Profile/ProfileHome.dart';
@@ -19,7 +20,7 @@ import 'package:movie_app/bloc/LoginBloc/login_bloc.dart';
 import 'package:movie_app/bloc/OnboardingBloc/onboarding__bloc.dart';
 import 'package:movie_app/bloc/OnboardingBloc/onboarding__state.dart';
 import 'package:movie_app/bloc/createAccountBloc/create_account_bloc.dart';
-import 'package:movie_app/bloc/profileBloc/image_bloc.dart';
+import 'package:movie_app/bloc/profileBloc/DataProfile_bloc.dart';
 import 'UI/onboarding/onboarding_page4.dart';
 
 
@@ -32,7 +33,7 @@ void main() async {
             BlocProvider(create: (context) => LoginBloc(),),
             BlocProvider(create: (context) => CreateAccountBloc(),),
             BlocProvider(create: (context) => ForgetpasswordBloc()),
-           BlocProvider(create: (context) => ImageBloc()),
+           BlocProvider(create: (context) => DataProfileBloc()),
             //BlocProvider(create: (context) => ImageBloc()),
           ],
           child: MyApp()
@@ -53,7 +54,7 @@ class MyApp extends StatelessWidget {
             supportedLocales: AppLocalizations.supportedLocales,
             locale: Locale(state.languageCode),
             themeMode: ThemeMode.dark,
-            initialRoute: onboarding_page1.RouteName,
+            initialRoute: HomeNavigationbar.RouteName,
             routes: {
               onboarding_page1.RouteName: (context) => onboarding_page1(),
               onboarding_page2.RouteName: (context) => onboarding_page2(),

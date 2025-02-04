@@ -52,6 +52,7 @@ dependencies:
   go_router: ^14.7.2
   google_fonts: ^6.2.1
   flutter_native_splash: ^2.4.4
+  carousel_slider: ^5.0.0
 
 dev_dependencies:
   flutter_test:

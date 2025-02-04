@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/assets/AppColors.dart';
 import 'package:movie_app/assets/ImagePath.dart';
-import 'package:movie_app/bloc/profileBloc/image_bloc.dart';
-import 'package:movie_app/bloc/profileBloc/image_event.dart';
-import 'package:movie_app/bloc/profileBloc/image_state.dart';
+import 'package:movie_app/bloc/profileBloc/DataProfile_bloc.dart';
+import 'package:movie_app/bloc/profileBloc/DataProfile_event.dart';
+import 'package:movie_app/bloc/profileBloc/DataProfile_state.dart';
 
 class ListAvatar extends StatelessWidget {
   const ListAvatar({super.key});
@@ -35,15 +35,15 @@ class ListAvatar extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: List.generate(3, (colIndex) {
                 int index = rowIndex * 3 + colIndex;
-                return BlocBuilder<ImageBloc, ImageState>(
+                return BlocBuilder<DataProfileBloc, DataProfileState>(
                   builder: (context, state) {
-                    String selectedImage = state is ImageSelected
+                    String selectedImage = state is ImageSelectedDataProfile
                         ? state.selectedImage
                         : '';
                     return InkWell(
                       onTap: () {
                         // Update selected image in the Bloc
-                        context.read<ImageBloc>().add(SelectImage(images[index]));
+                        context.read<DataProfileBloc>().add(SelectImage(images[index]));
                       },
                       child: Container(
                         padding: EdgeInsets.all(10),
