@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:movie_app/UI/Navigationbar/Home/DetailsMove/DetailsMovieScreen.dart';
 import 'package:movie_app/UI/Navigationbar/Home/ItemViewMovie.dart';
 import 'package:movie_app/UI/Navigationbar/Home/ListItems.dart';
 import 'package:movie_app/assets/AppColors.dart';
@@ -64,9 +65,21 @@ class _HomeScreenState extends State<HomeScreen> {
                   items: movies.map((movie) {
                     return Builder(
                       builder: (BuildContext context) {
-                        return ItemViewMovie(
-                          PathImage: movie["image"],
-                          rate: movie["rating"],
+                        return InkWell(
+                          onTap: (){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DetailsMovieScreen(
+                                  imageBackground: movie["image"],
+                                ),
+                              ),
+                            );
+                            },
+                          child: ItemViewMovie(
+                            PathImage: movie["image"],
+                            rate: movie["rating"],
+                          ),
                         );
                       },
                     );
@@ -86,16 +99,53 @@ class _HomeScreenState extends State<HomeScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    ListItems(
-                      PathImage:ImagePath.film10,
-                      rate: '5.1',
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DetailsMovieScreen(
+                              imageBackground: ImagePath.film10, // Pass the image dynamically
+                            ),
+                          ),
+                        );
+                      },
+                      child: ListItems(
+                        PathImage:ImagePath.film10,
+                        rate: '5.1',
+                      ),
                     ),
-                    ListItems(
-                      PathImage:ImagePath.film11,
-                      rate: '5.1',
-                    ),ListItems(
-                      PathImage:ImagePath.film12,
-                      rate: '5.1',
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DetailsMovieScreen(
+                              imageBackground: ImagePath.film11, // Pass the image dynamically
+                            ),
+                          ),
+                        );
+                      },
+                      child: ListItems(
+                        PathImage:ImagePath.film11,
+                        rate: '5.1',
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DetailsMovieScreen(
+                              imageBackground: ImagePath.film12, // Pass the image dynamically
+                            ),
+                          ),
+                        );
+                      },
+                      child: ListItems(
+                        PathImage:ImagePath.film12,
+                        rate: '5.1',
+                      ),
                     ),
                   ],
                 ),

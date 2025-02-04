@@ -22,11 +22,7 @@ class _HomeNavigationbarState extends State<HomeNavigationbar> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: tabs[selectindex],
-      bottomNavigationBar: BottomAppBar(
-        padding: EdgeInsets.zero,
-
-        shape: CircularNotchedRectangle(),
-        notchMargin: 4,
+      bottomNavigationBar: SafeArea(
         child: BottomNavigationBar(
           selectedItemColor:Colors.yellow,
           unselectedItemColor:Colors.white,

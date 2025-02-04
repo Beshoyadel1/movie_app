@@ -53,5 +53,10 @@ class ImagePath{
   static const String film12='images/film12.png';
   static const String star='images/star.png';
   static const String home_background='images/home_background.png';
-
+  static const String save='images/save.png';
+  static const String unsave='images/unsave.png';
+  static const String pause='images/pause.png';
+  static const String heart='images/heart.png';
+  static const String clock='images/clock.png';
+  static const String test='images/test.png';
 }

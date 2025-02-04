@@ -93,7 +93,7 @@ class _ProfileHomeState extends State<ProfileHome> with SingleTickerProviderStat
               Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(10),
+                    padding:  EdgeInsets.all(10),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.symmetric(horizontal: width * 0.18, vertical: height * 0.01),

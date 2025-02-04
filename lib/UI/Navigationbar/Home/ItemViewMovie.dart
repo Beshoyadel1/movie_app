@@ -40,7 +40,7 @@ class ItemViewMovie extends StatelessWidget {
               Image.asset(ImagePath.star),
             ],
           ),
-        )
+        ),
       ],
     );
   }
