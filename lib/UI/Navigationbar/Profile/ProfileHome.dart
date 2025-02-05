@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movie_app/UI/Auth/login.dart';
-import 'package:movie_app/UI/Navigationbar/Profile/EditProfile.dart';
+import 'package:movie_app/UI/Navigationbar/Profile/EditProfile/EditProfile.dart';
 import 'package:movie_app/UI/Navigationbar/Profile/History.dart';
 import 'package:movie_app/UI/Navigationbar/Profile/Watch%20List.dart';
 import 'package:movie_app/assets/AppColors.dart';
@@ -46,7 +46,7 @@ class _ProfileHomeState extends State<ProfileHome> with SingleTickerProviderStat
       backgroundColor: AppColors.graycolor,
       body: BlocBuilder<DataProfileBloc, DataProfileState>(
         builder: (context, state) {
-          String selectedImage = state is ImageSelectedDataProfile ? state.selectedImage : ImagePath.face1;
+          String selectedImage = state is ProfileUpdated ? state.selectedImage : ImagePath.face1;
           String userName = state is ProfileUpdated ? state.name : "User"; // Get name from state
 
           return Column(

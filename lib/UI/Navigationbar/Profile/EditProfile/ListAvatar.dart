@@ -37,13 +37,12 @@ class ListAvatar extends StatelessWidget {
                 int index = rowIndex * 3 + colIndex;
                 return BlocBuilder<DataProfileBloc, DataProfileState>(
                   builder: (context, state) {
-                    String selectedImage = state is ImageSelectedDataProfile
+                    String selectedImage = state is ProfileUpdated
                         ? state.selectedImage
                         : '';
                     return InkWell(
                       onTap: () {
-                        // Update selected image in the Bloc
-                        context.read<DataProfileBloc>().add(SelectImage(images[index]));
+                        context.read<DataProfileBloc>().add(UpdateImage(images[index]));
                       },
                       child: Container(
                         padding: EdgeInsets.all(10),

@@ -7,7 +7,7 @@ import 'package:movie_app/UI/Auth/login.dart';
 import 'package:movie_app/UI/Navigationbar/Home/DetailsMove/DetailsMovieScreen.dart';
 import 'package:movie_app/UI/Navigationbar/Home/Home_Screen.dart';
 import 'package:movie_app/UI/Navigationbar/HomeNavigationbar.dart';
-import 'package:movie_app/UI/Navigationbar/Profile/EditProfile.dart';
+import 'package:movie_app/UI/Navigationbar/Profile/EditProfile/EditProfile.dart';
 import 'package:movie_app/UI/Navigationbar/Profile/ProfileHome.dart';
 import 'package:movie_app/UI/onboarding/onboarding_page1.dart';
 import 'package:movie_app/UI/onboarding/onboarding_page2.dart';

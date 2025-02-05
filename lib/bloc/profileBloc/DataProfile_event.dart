@@ -1,8 +1,8 @@
 abstract class DataProfileEvent {}
 
-class SelectImage extends DataProfileEvent {
+class UpdateImage extends DataProfileEvent {
   final String imagePath;
-  SelectImage(this.imagePath);
+  UpdateImage(this.imagePath);
 }
 
 class UpdateName extends DataProfileEvent {

@@ -5,7 +5,6 @@ import 'package:movie_app/UI/Navigationbar/Home/Home_Screen.dart';
 import 'package:movie_app/UI/Navigationbar/Profile/ProfileHome.dart';
 import 'package:movie_app/UI/Navigationbar/Search/SearchHome.dart';
 import 'package:movie_app/assets/AppColors.dart';
-
 import '../../assets/ImagePath.dart';
 
 class HomeNavigationbar extends StatefulWidget {

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/UI/Navigationbar/HomeNavigationbar.dart';
-import 'package:movie_app/UI/Navigationbar/Profile/ListAvatar.dart';
+import 'package:movie_app/UI/Navigationbar/Profile/EditProfile/ListAvatar.dart';
 import 'package:movie_app/UI/Navigationbar/Profile/ProfileHome.dart';
 import 'package:movie_app/assets/AppColors.dart';
 import 'package:movie_app/assets/Fontspath.dart';
@@ -55,7 +55,7 @@ class _EditProfileState extends State<EditProfile> {
               InkWell(
                 onTap: showlistbottonsheet,
                 child: Image.asset(
-                  state is ImageSelectedDataProfile ? state.selectedImage : ImagePath.face1,
+                  state is ProfileUpdated ? state.selectedImage : ImagePath.face1,
                   alignment: Alignment.center,
                 ),
               ),
