@@ -33,6 +33,12 @@ class _Forget_PasswordState extends State<Forget_Password> {
     return Scaffold(
       backgroundColor: AppColors.blackcolor,
       appBar: AppBar(
+        leading: IconButton(
+            onPressed: (){
+              Navigator.pushNamed(context, login.RouteName);
+            },
+            icon:(Icon(Icons.arrow_back_ios,color: AppColors.yellocolor,))
+        ),
         backgroundColor: AppColors.blackcolor,
         centerTitle: true,
         title: Text(

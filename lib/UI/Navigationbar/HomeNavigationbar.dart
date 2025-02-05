@@ -16,7 +16,7 @@ class HomeNavigationbar extends StatefulWidget {
 
 class _HomeNavigationbarState extends State<HomeNavigationbar> {
   int selectindex=0;
-  List<Widget>tabs=[HomeScreen(),SearchHome(),BrowseHome(),ProfileHome()];
+  List<Widget>tabs=[HomeScreen(),BrowseHome(),SearchHome(),ProfileHome()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(

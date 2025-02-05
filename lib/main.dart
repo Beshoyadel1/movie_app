@@ -34,7 +34,7 @@ void main() async {
             BlocProvider(create: (context) => LoginBloc(),),
             BlocProvider(create: (context) => CreateAccountBloc(),),
             BlocProvider(create: (context) => ForgetpasswordBloc()),
-           BlocProvider(create: (context) => DataProfileBloc()),
+            BlocProvider(create: (context) => DataProfileBloc()),
             //BlocProvider(create: (context) => ImageBloc()),
           ],
           child: MyApp()
@@ -44,7 +44,6 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LanguageBloc, LanguageState>(

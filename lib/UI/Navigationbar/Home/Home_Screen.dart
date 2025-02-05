@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:movie_app/UI/Navigationbar/Home/DetailsMove/DetailsMovieScreen.dart';
 import 'package:movie_app/UI/Navigationbar/Home/ItemViewMovie.dart';
-import 'package:movie_app/UI/Navigationbar/Home/ListItems.dart';
+import 'package:movie_app/UI/Navigationbar/custom%20widget/MovieList.dart';
 import 'package:movie_app/assets/AppColors.dart';
 import 'package:movie_app/assets/Fontspath.dart';
 import 'package:movie_app/assets/ImagePath.dart';
@@ -19,25 +19,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
-    List<Map<String, dynamic>> movies = [
-      {"image": ImagePath.film1, "rating": "7.7"},
-      {"image": ImagePath.film2, "rating": "8.2"},
-      {"image": ImagePath.film3, "rating": "6.9"},
-      {"image": ImagePath.film4, "rating": "7.7"},
-      {"image": ImagePath.film5, "rating": "8.2"},
-      {"image": ImagePath.film6, "rating": "6.9"},
-      {"image": ImagePath.film7, "rating": "7.7"},
-      {"image": ImagePath.film8, "rating": "8.2"},
-      {"image": ImagePath.film9, "rating": "6.9"},
-      {"image": ImagePath.film10, "rating": "7.7"},
-      {"image": ImagePath.film11, "rating": "8.2"},
-      {"image": ImagePath.film12, "rating": "6.9"},
-    ];
 
     return Scaffold(
       body: Stack(
         children: [
-          // Background Image
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
@@ -62,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     autoPlayInterval: Duration(seconds: 3),
                     autoPlayAnimationDuration: Duration(milliseconds: 800),
                   ),
-                  items: movies.map((movie) {
+                  items: MovieList.movies.map((movie) {
                     return Builder(
                       builder: (BuildContext context) {
                         return InkWell(
@@ -77,6 +62,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             );
                             },
                           child: ItemViewMovie(
+                            heightscreen: 1,
+                            widthscreen: 1,
                             PathImage: movie["image"],
                             rate: movie["rating"],
                           ),
@@ -110,7 +97,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         );
                       },
-                      child: ListItems(
+                      child: ItemViewMovie(
+                        widthscreen: 0.3,
+                        heightscreen:0.2 ,
                         PathImage:ImagePath.film10,
                         rate: '5.1',
                       ),
@@ -126,9 +115,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         );
                       },
-                      child: ListItems(
+                      child: ItemViewMovie(
+                        heightscreen: 0.2,
+                        widthscreen: 0.3,
                         PathImage:ImagePath.film11,
-                        rate: '5.1',
+                        rate: '3.6',
                       ),
                     ),
                     InkWell(
@@ -142,9 +133,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         );
                       },
-                      child: ListItems(
+                      child: ItemViewMovie(
+                        heightscreen: 0.2,
+                        widthscreen: 0.3,
                         PathImage:ImagePath.film12,
-                        rate: '5.1',
+                        rate: '4.2',
                       ),
                     ),
                   ],

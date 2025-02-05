@@ -64,6 +64,12 @@ class _CreateAccountState extends State<CreateAccount> {
    // var providerlanguage=Provider.of<Applanguageprovider>(context);
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+            onPressed: (){
+              Navigator.pushNamed(context, login.RouteName);
+            },
+            icon:(Icon(Icons.arrow_back_ios,color: AppColors.yellocolor,))
+        ),
         backgroundColor: AppColors.blackcolor,
         centerTitle: true,
         title: Text(
