@@ -28,43 +28,48 @@ class ListAvatar extends StatelessWidget {
       backgroundColor: AppColors.graycolor,
       body: Padding(
         padding: const EdgeInsets.all(10.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: List.generate(3, (rowIndex) {
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: List.generate(3, (colIndex) {
-                int index = rowIndex * 3 + colIndex;
-                return BlocBuilder<DataProfileBloc, DataProfileState>(
-                  builder: (context, state) {
-                    String selectedImage = state is ProfileUpdated
-                        ? state.selectedImage
-                        : '';
-                    return InkWell(
-                      onTap: () {
-                        context.read<DataProfileBloc>().add(UpdateImage(images[index]));
-                      },
-                      child: Container(
-                        padding: EdgeInsets.all(10),
-                        margin: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: selectedImage == images[index]
-                              ? AppColors.yellocolor.withOpacity(0.59)
-                              : Colors.transparent,
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                            color: AppColors.yellocolor,
-                            width: 2,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: List.generate(3, (rowIndex) {
+              return SingleChildScrollView(
+                scrollDirection:Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: List.generate(3, (colIndex) {
+                    int index = rowIndex * 3 + colIndex;
+                    return BlocBuilder<DataProfileBloc, DataProfileState>(
+                      builder: (context, state) {
+                        String selectedImage = state is ProfileUpdated
+                            ? state.selectedImage
+                            : '';
+                        return InkWell(
+                          onTap: () {
+                            context.read<DataProfileBloc>().add(UpdateImage(images[index]));
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(10),
+                            margin: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: selectedImage == images[index]
+                                  ? AppColors.yellocolor.withOpacity(0.59)
+                                  : Colors.transparent,
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: AppColors.yellocolor,
+                                width: 2,
+                              ),
+                            ),
+                            child: Image.asset(images[index]),
                           ),
-                        ),
-                        child: Image.asset(images[index]),
-                      ),
+                        );
+                      },
                     );
-                  },
-                );
-              }),
-            );
-          }),
+                  }),
+                ),
+              );
+            }),
+          ),
         ),
       ),
     );

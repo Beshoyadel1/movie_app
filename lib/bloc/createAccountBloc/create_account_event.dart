@@ -1,10 +1,7 @@
-abstract class LoginEvent {}
-class CreateAccountEventSubmitted extends LoginEvent {
-  final String email;
-  final String password;
-  final String Repassword;
-  final String name;
-  final String phoneNumber;
+abstract class SignupEvent {}
 
-  CreateAccountEventSubmitted(this.email, this.password,this.name,this.phoneNumber,this.Repassword);
+class SignupButtonPressed extends SignupEvent {
+  final String name, email, phone, password, confirmPassword;
+  final int avaterId;
+  SignupButtonPressed({required this.name, required this.email, required this.phone, required this.password, required this.confirmPassword, required this.avaterId});
 }

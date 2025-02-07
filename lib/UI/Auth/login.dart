@@ -172,7 +172,7 @@ class _loginState extends State<login> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(AppLocalizations.of(context)!.dont_have_account,style: Fontspath.w500Inter16(color: AppColors.whitecolor),),
+                        Text(AppLocalizations.of(context)!.dont_have_account,style: Fontspath.w500Inter16(color: AppColors.whitecolor)),
                         InkWell(
                           onTap: (){
                             Navigator.pushNamed(context,CreateAccount.RouteName);
@@ -229,13 +229,16 @@ class _loginState extends State<login> {
                             ),
                           ),
                           onPressed: () {},
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(ImagePath.google),
-                              SizedBox(width: 10,),
-                              Text(AppLocalizations.of(context)!.login_with_google,style: Fontspath.w500Inter20(color: AppColors.graycolor),),
-                            ],
+                          child: SingleChildScrollView(
+                            scrollDirection:Axis.horizontal,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(ImagePath.google),
+                                SizedBox(width: 10,),
+                                Text(AppLocalizations.of(context)!.login_with_google,style: Fontspath.w500Inter20(color: AppColors.graycolor),),
+                              ],
+                            ),
                           )),
 
                     ),

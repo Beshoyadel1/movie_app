@@ -22,6 +22,7 @@ class EditProfile extends StatefulWidget {
 class _EditProfileState extends State<EditProfile> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
+  bool isclick = false;
 
   @override
   Widget build(BuildContext context) {
@@ -32,14 +33,11 @@ class _EditProfileState extends State<EditProfile> {
       backgroundColor: AppColors.blackcolor,
       appBar: AppBar(
         backgroundColor: AppColors.blackcolor,
-        title: Text('Edit Profile', style: Fontspath.w700Inter20(color: AppColors.yellocolor)),
-        centerTitle: true,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pushNamed(context, HomeNavigationbar.RouteName);
-          },
-          icon: Icon(Icons.arrow_back, color: AppColors.yellocolor),
+        title: Text(
+          'Edit Profile',
+          style: Fontspath.w700Inter20(color: AppColors.yellocolor),
         ),
+        centerTitle: true,
       ),
       body: BlocBuilder<DataProfileBloc, DataProfileState>(
         builder: (context, state) {
@@ -47,45 +45,42 @@ class _EditProfileState extends State<EditProfile> {
             nameController.text = state.name;
             phoneController.text = state.phoneNumber;
           }
-
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(height: height * 0.03),
-              InkWell(
-                onTap: showlistbottonsheet,
-                child: Image.asset(
-                  state is ProfileUpdated ? state.selectedImage : ImagePath.face1,
-                  alignment: Alignment.center,
+          return SingleChildScrollView( // Fixes Overflow Issue
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: height * 0.03),
+                InkWell(
+                  onTap: showlistbottonsheet,
+                  child: SizedBox(
+                    width: width * 0.3, // Constraining the image size
+                    height: width * 0.3,
+                    child: Image.asset(
+                      state is ProfileUpdated ? state.selectedImage : ImagePath.face1,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
-              ),
-              SizedBox(height: height * 0.03),
-              buildTextField(Icons.person, "Name", nameController, (value) {
-                context.read<DataProfileBloc>().add(UpdateName(value));
-              }),
-              SizedBox(height: height * 0.01),
-              buildTextField(Icons.phone, "Phone Number", phoneController, (value) {
-                context.read<DataProfileBloc>().add(UpdatePhoneNumber(value));
-              }),
-              SizedBox(height: height * 0.01),
-              Row(
-                children: [
-                  Text('Reset Password', style: Fontspath.w400Inter20(color: AppColors.whitecolor)),
-                ],
-              ),
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    buildButton(AppColors.redcolor, "Delete Account", () {}),
-                    buildButton(AppColors.yellocolor, "Update Data", () {
-                      Navigator.pushNamed(context, HomeNavigationbar.RouteName);
-                    }),
-                  ],
-                ),
-              ),
-              SizedBox(height: height * 0.02),
-            ],
+                SizedBox(height: height * 0.03),
+                buildTextField(Icons.person, "Name", nameController, (value) {
+                  context.read<DataProfileBloc>().add(UpdateName(value));
+                }),
+                SizedBox(height: height * 0.01),
+                buildTextField(Icons.phone, "Phone Number", phoneController, (value) {
+                  context.read<DataProfileBloc>().add(UpdatePhoneNumber(value));
+                }),
+                SizedBox(height: height * 0.01),
+                SizedBox(height: height * 0.02),
+                buildButton(AppColors.redcolor, "Delete Account", () {}),
+                buildButton(AppColors.yellocolor, "Update Data", () {
+                  setState(() {
+                    isclick = true;
+                  });
+                  Navigator.pushNamed(context, HomeNavigationbar.RouteName);
+                }),
+                SizedBox(height: height * 0.02),
+              ],
+            ),
           );
         },
       ),
@@ -93,38 +88,40 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   Widget buildTextField(IconData icon, String hintText, TextEditingController controller, Function(String) onChanged) {
-    return Container(
+    return Padding(
       padding: EdgeInsets.all(10),
-      margin: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: AppColors.graycolor,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        children: [
-          SizedBox(width: 10),
-          Icon(icon, color: AppColors.whitecolor),
-          SizedBox(width: 10),
-          Expanded(
-            child: TextField(
-              controller: controller,
-              style: TextStyle(color: AppColors.whitecolor),
-              decoration: InputDecoration(
-                hintText: hintText,
-                hintStyle: TextStyle(color: Colors.grey),
-                border: InputBorder.none,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        decoration: BoxDecoration(
+          color: AppColors.graycolor,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Row(
+          children: [
+            Icon(icon, color: AppColors.whitecolor),
+            SizedBox(width: 10),
+            Expanded(
+              child: TextField(
+                controller: controller,
+                style: TextStyle(color: AppColors.whitecolor),
+                decoration: InputDecoration(
+                  hintText: hintText,
+                  hintStyle: TextStyle(color: Colors.grey),
+                  border: InputBorder.none,
+                ),
+                onChanged: onChanged,
               ),
-              onChanged: onChanged,
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
   Widget buildButton(Color color, String text, VoidCallback onPressed) {
     return Container(
-      padding: const EdgeInsets.all(10),
+      padding: EdgeInsets.all(10),
+      width: double.infinity, // Ensures full width
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           padding: EdgeInsets.all(10),
@@ -134,11 +131,9 @@ class _EditProfileState extends State<EditProfile> {
           ),
         ),
         onPressed: onPressed,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(text, style: Fontspath.w500Inter20(color: AppColors.whitecolor)),
-          ],
+        child: Text(
+          text,
+          style: Fontspath.w500Inter20(color: AppColors.whitecolor),
         ),
       ),
     );

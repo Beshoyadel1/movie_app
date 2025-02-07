@@ -80,13 +80,16 @@ class _DetailsMovieScreenState extends State<DetailsMovieScreen> {
                     ),
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ListViewRate(PathImage:ImagePath.heart, value:'15'),
-                    ListViewRate(PathImage:ImagePath.clock, value:'90'),
-                    ListViewRate(PathImage:ImagePath.star, value:'7.5'),
-                  ],
+                SingleChildScrollView(
+                  scrollDirection:Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ListViewRate(PathImage:ImagePath.heart, value:'15'),
+                      ListViewRate(PathImage:ImagePath.clock, value:'90'),
+                      ListViewRate(PathImage:ImagePath.star, value:'7.5'),
+                    ],
+                  ),
                 ),
               SizedBox(
                 height: height*0.02,

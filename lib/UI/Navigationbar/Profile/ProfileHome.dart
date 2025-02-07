@@ -68,11 +68,11 @@ class _ProfileHomeState extends State<ProfileHome> with SingleTickerProviderStat
                     children: [
                       Text(
                         '12',
-                        style: Fontspath.w700Inter36(color: AppColors.whitecolor),
+                        style: Fontspath.w700Inter20(color: AppColors.whitecolor),
                       ),
                       Text(
                         'Wish List',
-                        style: Fontspath.w700Inter24(color: AppColors.whitecolor),
+                        style: Fontspath.w700Inter20(color: AppColors.whitecolor),
                       ),
                     ],
                   ),
@@ -80,61 +80,64 @@ class _ProfileHomeState extends State<ProfileHome> with SingleTickerProviderStat
                     children: [
                       Text(
                         '10',
-                        style: Fontspath.w700Inter36(color: AppColors.whitecolor),
+                        style: Fontspath.w700Inter20(color: AppColors.whitecolor),
                       ),
                       Text(
                         'History',
-                        style: Fontspath.w700Inter24(color: AppColors.whitecolor),
+                        style: Fontspath.w700Inter20(color: AppColors.whitecolor),
                       ),
                     ],
                   ),
                 ],
               ),
-              Row(
-                children: [
-                  Container(
-                    padding:  EdgeInsets.all(10),
-                    child: ElevatedButton(
+              SingleChildScrollView(
+                scrollDirection:Axis.horizontal,
+                child: Row(
+                  children: [
+                    Container(
+                      padding:  EdgeInsets.all(10),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.symmetric(horizontal: width * 0.18, vertical: height * 0.01),
+                          backgroundColor: AppColors.yellocolor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(13),
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, EditProfile.RouteName);
+                        },
+                        child: Text(
+                          'Edit Profile',
+                          style: Fontspath.w500Inter20(color: AppColors.blackcolor),
+                        ),
+                      ),
+                    ),
+                    ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(horizontal: width * 0.18, vertical: height * 0.01),
-                        backgroundColor: AppColors.yellocolor,
+                        padding: EdgeInsets.symmetric(horizontal: width * 0.08, vertical: height * 0.01),
+                        backgroundColor: AppColors.redcolor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(13),
                         ),
                       ),
                       onPressed: () {
-                        Navigator.pushNamed(context, EditProfile.RouteName);
+                        Navigator.pushNamed(context, login.RouteName);
                       },
-                      child: Text(
-                        'Edit Profile',
-                        style: Fontspath.w500Inter20(color: AppColors.blackcolor),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Exit',
+                            style: Fontspath.w500Inter20(color: AppColors.whitecolor),
+                          ),
+                          SizedBox(width: width * 0.02),
+                          Icon(Icons.login, color: AppColors.whitecolor),
+                        ],
                       ),
                     ),
-                  ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(horizontal: width * 0.08, vertical: height * 0.01),
-                      backgroundColor: AppColors.redcolor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(13),
-                      ),
-                    ),
-                    onPressed: () {
-                      Navigator.pushNamed(context, login.RouteName);
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Exit',
-                          style: Fontspath.w500Inter20(color: AppColors.whitecolor),
-                        ),
-                        SizedBox(width: width * 0.02),
-                        Icon(Icons.login, color: AppColors.whitecolor),
-                      ],
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               SizedBox(height: height * 0.01),
               TabBar(

@@ -14,6 +14,7 @@ import 'package:movie_app/UI/onboarding/onboarding_page2.dart';
 import 'package:movie_app/UI/onboarding/onboarding_page3.dart';
 import 'package:movie_app/UI/onboarding/onboarding_page5.dart';
 import 'package:movie_app/UI/onboarding/onboarding_page6.dart';
+import 'package:movie_app/api/SignupApi/SignupRepository.dart';
 import 'package:movie_app/bloc/ForgetpasswordBloc/forgetpassword_bloc.dart';
 import 'package:movie_app/bloc/LanguageBloc/language_bloc.dart';
 import 'package:movie_app/bloc/LanguageBloc/language_state.dart';
@@ -26,13 +27,14 @@ import 'UI/onboarding/onboarding_page4.dart';
 
 
 void main() async {
+  final authRepository = SignupRepository();
   runApp(
       MultiBlocProvider(
           providers: [
             BlocProvider(create: (context) => LanguageBloc()),
             BlocProvider(create: (context) => OnboardingCubit(),),
             BlocProvider(create: (context) => LoginBloc(),),
-            BlocProvider(create: (context) => CreateAccountBloc(),),
+            BlocProvider(create: (context) => SignupBloc(authRepository),),
             BlocProvider(create: (context) => ForgetpasswordBloc()),
             BlocProvider(create: (context) => DataProfileBloc()),
             //BlocProvider(create: (context) => ImageBloc()),
@@ -54,7 +56,7 @@ class MyApp extends StatelessWidget {
             supportedLocales: AppLocalizations.supportedLocales,
             locale: Locale(state.languageCode),
             themeMode: ThemeMode.dark,
-            initialRoute: onboarding_page1.RouteName,
+            initialRoute: login.RouteName,
             routes: {
               onboarding_page1.RouteName: (context) => onboarding_page1(),
               onboarding_page2.RouteName: (context) => onboarding_page2(),

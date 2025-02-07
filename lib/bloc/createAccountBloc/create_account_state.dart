@@ -1,8 +1,14 @@
-abstract class CreateAccountState {}
-class CreateAccountInitial extends CreateAccountState {}
-class CreateAccountLoading extends CreateAccountState {}
-class CreateAccountSuccess extends CreateAccountState {}
-class CreateAccountFailure extends CreateAccountState {
+import 'package:movie_app/api/SignupApi/ModelSignup.dart';
+
+abstract class SignupState {}
+
+class SignupInitial extends SignupState {}
+class SignupLoading extends SignupState {}
+class SignupSuccess extends SignupState {
+  final SignupResponse response;
+  SignupSuccess(this.response);
+}
+class SignupFailure extends SignupState {
   final String error;
-  CreateAccountFailure(this.error);
+  SignupFailure(this.error);
 }

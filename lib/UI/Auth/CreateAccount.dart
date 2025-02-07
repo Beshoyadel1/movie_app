@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,23 +38,6 @@ class _CreateAccountState extends State<CreateAccount> {
   bool _RepasswordError = false;
   bool _phoneNumberError = false;
 
-  // Function to create a new account with Firebase Authentication
-  /* Future<void> _createAccountWithEmailPassword() async {
-    setState(() {
-      _nameError = _nameController.text.isEmpty;
-      _emailError = _emailController.text.isEmpty || !_emailController.text.contains('@gmail.com');
-      _passwordError = _passwordController.text.isEmpty || (_passwordController.text != _RepasswordController.text);
-      _RepasswordError = _RepasswordController.text.isEmpty || (_passwordController.text != _RepasswordController.text);
-      _phoneNumberError=_phoneNumberController.text.isEmpty;
-    });
-
-    if (!_emailError && !_passwordError && !_nameError && !_RepasswordError&&!_phoneNumberError) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Account created successfully ')),
-      );
-      Navigator.pushNamed(context, login.RouteName);
-    }
-  } */
 
   @override
   Widget build(BuildContext context) {
@@ -78,27 +60,18 @@ class _CreateAccountState extends State<CreateAccount> {
         ),
       ),
       backgroundColor: AppColors.blackcolor,
-      body: BlocConsumer<CreateAccountBloc, CreateAccountState>(
-        listener: (context, state) {
-      if (state is CreateAccountSuccess) {
-        // Show success message
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('CreateAccount successful!')),
-        );
-
-        // Navigate to HomeNavigationbar after a short delay
-        Future.delayed(Duration(seconds: 1), () {
-          Navigator.pushReplacementNamed(context, login.RouteName);
-        });
-      }
-      if (state is CreateAccountFailure) {
-        // Show error message
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(state.error)),
-        );
-      }
-    },
-    builder: (context, state) {
+      body:               BlocConsumer<SignupBloc, SignupState>(
+          listener: (context, state) {
+            if (state is SignupSuccess) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.response.message ?? 'Signup successful!')));
+            } else if (state is SignupFailure) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.error)));
+            }
+          },
+          builder: (context, state) {
+            if (state is SignupLoading) {
+              return Center(child: CircularProgressIndicator());
+            }
           return SingleChildScrollView(
           child: BlocBuilder<LanguageBloc,LanguageState>(
     builder: (context,state){
@@ -124,9 +97,6 @@ class _CreateAccountState extends State<CreateAccount> {
       height: height*0.02,
       ),
       Text('Avatar',style: Fontspath.w400Inter14(color: AppColors.whitecolor),textAlign: TextAlign.center,),
-      SizedBox(
-      height: height*0.02,
-      ),
       Container(
       //padding: EdgeInsets.all(20),
       child:TextFormField(
@@ -150,9 +120,7 @@ class _CreateAccountState extends State<CreateAccount> {
       SizedBox(
       height: height*0.02,
       ),
-      Container(
-      //padding: EdgeInsets.all(20),
-      child:TextFormField(
+      TextFormField(
       style: TextStyle(color: AppColors.whitecolor),
       controller: _emailController,
         validator: (value) => value!.contains("@gmail.com") ? null : "Enter a valid Gmail",
@@ -166,7 +134,6 @@ class _CreateAccountState extends State<CreateAccount> {
       ),
       border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(15)
-      ),
       ),
       ),
       ),
@@ -264,15 +231,20 @@ class _CreateAccountState extends State<CreateAccount> {
       borderRadius: BorderRadius.circular(15), // No rounded corners
       ),
       ),
-          onPressed: () {
-            if (_formKey.currentState!.validate()) {
-              BlocProvider.of<CreateAccountBloc>(context).add(
-                CreateAccountEventSubmitted(_emailController.text, _passwordController.text, _nameController.text,
-                    _phoneNumberController.text, _RepasswordController.text),
-              );
-            }
-          },
-          child: state is CreateAccountLoading ? CircularProgressIndicator() : Text(AppLocalizations.of(context)!.create_account,style: Fontspath.w400Inter20(color: AppColors.graycolor),)),
+        onPressed: () {
+          BlocProvider.of<SignupBloc>(context).add(
+            SignupButtonPressed(
+              name: _nameController.text,
+              email: _emailController.text,
+              phone: _phoneNumberController.text,
+              password: _passwordController.text,
+              confirmPassword: _RepasswordController.text,
+              avaterId: 1
+            ),
+          );
+        },
+        child: Text("Create Account",style: Fontspath.w400Inter20(color: AppColors.blackcolor),),
+      )
       ),
       SizedBox(
       height: height*0.02,
