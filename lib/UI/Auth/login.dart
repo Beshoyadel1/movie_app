@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:movie_app/UI/Auth/CreateAccount.dart';
 import 'package:movie_app/UI/Auth/Forget%20Password.dart';
+import 'package:movie_app/UI/Navigationbar/Home/Home_Screen.dart';
 import 'package:movie_app/UI/Navigationbar/HomeNavigationbar.dart';
 import 'package:movie_app/assets/AppColors.dart';
 import 'package:movie_app/assets/Fontspath.dart';
@@ -29,26 +30,6 @@ class _loginState extends State<login> {
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool _isPasswordVisible = false;
-  bool _emailError = false;
-  bool _passwordError = false;
-  /*
-  void _validateInput() async {
-    setState(() {
-      _emailError = _emailController.text.isEmpty || !_emailController.text.contains('@gmail.com');
-      _passwordError = _passwordController.text.isEmpty;
-    });
-
-    if (!_emailError && !_passwordError) {
-      _showMessage('Login Successful!');
-      Navigator.pushNamed(context, HomeNavigationbar.RouteName);
-    }
-  }
-
-  void _showMessage(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
-  }*/
   @override
   Widget build(BuildContext context) {
     var height=MediaQuery.of(context).size.height;
@@ -56,26 +37,28 @@ class _loginState extends State<login> {
     return Scaffold(
       backgroundColor: AppColors.blackcolor,
       body: BlocConsumer<LoginBloc, LoginState>(
-        listener: (context, state) {
-          if (state is LoginSuccess) {
-            // Show success message
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Login successful!')),
-            );
-
-            // Navigate to HomeNavigationbar after a short delay
-            Future.delayed(Duration(seconds: 1), () {
-              Navigator.pushReplacementNamed(context, HomeNavigationbar.RouteName);
-            });
-          }
-          if (state is LoginFailure) {
-            // Show error message
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.error)),
-            );
-          }
-        },
-    builder: (context, state) {
+          listener: (context, state) {
+            if (state is LoginSuccess) {
+              if (context.mounted) {
+                Navigator.pushNamed(context, HomeNavigationbar.RouteName);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(state.message),
+                    backgroundColor: Colors.green,
+                  ),
+                );
+              }
+            } else if (state is LoginFailure) {
+              if (context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(state.error),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+              }
+            }
+          },          builder: (context, state) {
           return  SingleChildScrollView(
             child: Form(
               key: _formKey,
@@ -146,6 +129,8 @@ class _loginState extends State<login> {
                     SizedBox(
                       height: height*0.02,
                     ),
+                    state is LoginLoading
+                        ? Center(child: CircularProgressIndicator()):
                     Container(
                       // margin: const EdgeInsets.all(10),
                       padding:const EdgeInsets.all(10),
@@ -158,13 +143,13 @@ class _loginState extends State<login> {
                             ),
                           ),
                           onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              BlocProvider.of<LoginBloc>(context).add(
-                                LoginSubmitted(_emailController.text, _passwordController.text),
-                              );
-                            }
+                            String email = _emailController.text;
+                            String password = _passwordController.text;
+                            context.read<LoginBloc>().add(
+                              LoginButtonPressed(email: email, password: password),
+                            );
                           },
-                          child: state is LoginLoading ? CircularProgressIndicator() :Text(AppLocalizations.of(context)!.login,style: Fontspath.w400Inter20(color: AppColors.graycolor),)),
+                          child:Text(AppLocalizations.of(context)!.login,style: Fontspath.w400Inter20(color: AppColors.graycolor),)),
                     ),
                     SizedBox(
                       height: height*0.02,

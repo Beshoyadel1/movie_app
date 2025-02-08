@@ -45,42 +45,46 @@ class _EditProfileState extends State<EditProfile> {
             nameController.text = state.name;
             phoneController.text = state.phoneNumber;
           }
-          return SingleChildScrollView( // Fixes Overflow Issue
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(height: height * 0.03),
-                InkWell(
-                  onTap: showlistbottonsheet,
-                  child: SizedBox(
-                    width: width * 0.3, // Constraining the image size
-                    height: width * 0.3,
-                    child: Image.asset(
-                      state is ProfileUpdated ? state.selectedImage : ImagePath.face1,
-                      fit: BoxFit.cover,
-                    ),
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(height: height * 0.03),
+              InkWell(
+                onTap: showlistbottonsheet,
+                child: SizedBox(
+                  width: width * 0.3, // Constraining the image size
+                  height: width * 0.3,
+                  child: Image.asset(
+                    state is ProfileUpdated ? state.selectedImage : ImagePath.face1,
+                    fit: BoxFit.cover,
                   ),
                 ),
-                SizedBox(height: height * 0.03),
-                buildTextField(Icons.person, "Name", nameController, (value) {
-                  context.read<DataProfileBloc>().add(UpdateName(value));
-                }),
-                SizedBox(height: height * 0.01),
-                buildTextField(Icons.phone, "Phone Number", phoneController, (value) {
-                  context.read<DataProfileBloc>().add(UpdatePhoneNumber(value));
-                }),
-                SizedBox(height: height * 0.01),
-                SizedBox(height: height * 0.02),
-                buildButton(AppColors.redcolor, "Delete Account", () {}),
-                buildButton(AppColors.yellocolor, "Update Data", () {
-                  setState(() {
-                    isclick = true;
-                  });
-                  Navigator.pushNamed(context, HomeNavigationbar.RouteName);
-                }),
-                SizedBox(height: height * 0.02),
-              ],
-            ),
+              ),
+              SizedBox(height: height * 0.03),
+              buildTextField(Icons.person, "Name", nameController, (value) {
+                context.read<DataProfileBloc>().add(UpdateName(value));
+              }),
+              SizedBox(height: height * 0.01),
+              buildTextField(Icons.phone, "Phone Number", phoneController, (value) {
+                context.read<DataProfileBloc>().add(UpdatePhoneNumber(value));
+              }),
+              SizedBox(height: height * 0.01),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    buildButton(AppColors.redcolor, "Delete Account", () {}),
+                    buildButton(AppColors.yellocolor, "Update Data", () {
+                      setState(() {
+                        isclick = true;
+                      });
+                      Navigator.pushNamed(context, HomeNavigationbar.RouteName);
+                    }),
+                  ],
+                ),
+              ),
+              SizedBox(height: height * 0.02),
+            ],
           );
         },
       ),

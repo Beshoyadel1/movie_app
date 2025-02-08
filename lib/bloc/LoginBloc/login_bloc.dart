@@ -1,24 +1,31 @@
-// Bloc Logic
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_app/UI/Navigationbar/HomeNavigationbar.dart';
+import 'package:movie_app/api/Signin%20Api/LoginRepository.dart';
+import 'package:movie_app/api/Signin%20Api/ModelSignin.dart';
 import 'package:movie_app/bloc/LoginBloc/login_event.dart';
 import 'package:movie_app/bloc/LoginBloc/login_state.dart';
 
+
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  LoginBloc() : super(LoginInitial()) {
-    on<LoginSubmitted>(_onLoginSubmitted); // Register event handler here
+  final LoginRepository authRepository;
+
+  LoginBloc(this.authRepository) : super(LoginInitial()) {
+    on<LoginButtonPressed>(_onLoginButtonPressed);
   }
 
-  // Event handler for LoginSubmitted
-  Future<void> _onLoginSubmitted(LoginSubmitted event, Emitter<LoginState> emit) async {
+  Future<void> _onLoginButtonPressed(
+      LoginButtonPressed event, Emitter<LoginState> emit) async {
     emit(LoginLoading());
-    await Future.delayed(Duration(seconds: 2));
 
-    if (event.email.contains("@gmail.com") && event.password.isNotEmpty) {
-      emit(LoginSuccess());
-    } else {
-      emit(LoginFailure("Invalid email or password"));
+    try {
+      final SigninResponse response = await authRepository.login(event.email, event.password);
+
+      if (response.message != null && response.message!.toLowerCase().contains("success")) {
+        emit(LoginSuccess(message: response.message!));
+      } else {
+        emit(LoginFailure(error: response.message ?? "Login failed"));
+      }
+    } catch (e) {
+      emit(LoginFailure(error: "An error occurred: $e"));
     }
   }
 }

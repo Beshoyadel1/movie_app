@@ -14,14 +14,12 @@ class DataProfileBloc extends Bloc<DataProfileEvent, DataProfileState> {
         emit(ProfileUpdated(currentState.name, currentState.phoneNumber, event.imagePath));
       }
     });
-
     on<UpdateName>((event, emit) {
       if (state is ProfileUpdated) {
         final currentState = state as ProfileUpdated;
         emit(ProfileUpdated(event.name, currentState.phoneNumber, currentState.selectedImage));
       }
     });
-
     on<UpdatePhoneNumber>((event, emit) {
       if (state is ProfileUpdated) {
         final currentState = state as ProfileUpdated;

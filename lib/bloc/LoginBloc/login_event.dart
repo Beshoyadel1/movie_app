@@ -1,6 +1,18 @@
-abstract class LoginEvent {}
-class LoginSubmitted extends LoginEvent {
+import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+
+// Events
+abstract class LoginEvent extends Equatable {
+  @override
+  List<Object?> get props => [];
+}
+
+class LoginButtonPressed extends LoginEvent {
   final String email;
   final String password;
-  LoginSubmitted(this.email, this.password);
+
+  LoginButtonPressed({required this.email, required this.password});
+
+  @override
+  List<Object?> get props => [email, password];
 }

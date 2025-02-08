@@ -14,6 +14,8 @@ import 'package:movie_app/UI/onboarding/onboarding_page2.dart';
 import 'package:movie_app/UI/onboarding/onboarding_page3.dart';
 import 'package:movie_app/UI/onboarding/onboarding_page5.dart';
 import 'package:movie_app/UI/onboarding/onboarding_page6.dart';
+import 'package:movie_app/api/Signin%20Api/LoginRepository.dart';
+import 'package:movie_app/api/Signin%20Api/ModelSignin.dart';
 import 'package:movie_app/api/SignupApi/SignupRepository.dart';
 import 'package:movie_app/bloc/ForgetpasswordBloc/forgetpassword_bloc.dart';
 import 'package:movie_app/bloc/LanguageBloc/language_bloc.dart';
@@ -27,14 +29,16 @@ import 'UI/onboarding/onboarding_page4.dart';
 
 
 void main() async {
-  final authRepository = SignupRepository();
+  final authRepositorySingup = SignupRepository();
+  final authRepositorylogin = LoginRepository();
+
   runApp(
       MultiBlocProvider(
           providers: [
             BlocProvider(create: (context) => LanguageBloc()),
             BlocProvider(create: (context) => OnboardingCubit(),),
-            BlocProvider(create: (context) => LoginBloc(),),
-            BlocProvider(create: (context) => SignupBloc(authRepository),),
+            BlocProvider(create: (context) => LoginBloc(authRepositorylogin),),
+            BlocProvider(create: (context) => SignupBloc(authRepositorySingup),),
             BlocProvider(create: (context) => ForgetpasswordBloc()),
             BlocProvider(create: (context) => DataProfileBloc()),
             //BlocProvider(create: (context) => ImageBloc()),
