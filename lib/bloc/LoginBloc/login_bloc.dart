@@ -1,9 +1,10 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:movie_app/api/Signin%20Api/LoginRepository.dart';
 import 'package:movie_app/api/Signin%20Api/ModelSignin.dart';
 import 'package:movie_app/bloc/LoginBloc/login_event.dart';
 import 'package:movie_app/bloc/LoginBloc/login_state.dart';
-
+import 'package:shared_preferences/shared_preferences.dart'; // To store token
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final LoginRepository authRepository;
@@ -19,8 +20,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     try {
       final SigninResponse response = await authRepository.login(event.email, event.password);
 
-      if (response.message != null && response.message!.toLowerCase().contains("success")) {
-        emit(LoginSuccess(message: response.message!));
+      if (response.token != null) {
+        // Store the token locally
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('auth_token', response.token!);
+
+        emit(LoginSuccess(message: response.message!, token: response.token!));
       } else {
         emit(LoginFailure(error: response.message ?? "Login failed"));
       }
@@ -28,4 +33,5 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       emit(LoginFailure(error: "An error occurred: $e"));
     }
   }
+
 }

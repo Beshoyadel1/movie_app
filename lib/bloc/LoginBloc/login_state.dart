@@ -11,11 +11,12 @@ class LoginLoading extends LoginState {}
 
 class LoginSuccess extends LoginState {
   final String message;
+  final String token;
 
-  LoginSuccess({required this.message});
+  LoginSuccess({required this.message, required this.token});
 
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [message, token];
 }
 
 class LoginFailure extends LoginState {

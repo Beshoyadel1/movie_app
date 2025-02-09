@@ -1,15 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_app/UI/Auth/login.dart';
 import 'package:movie_app/UI/Navigationbar/HomeNavigationbar.dart';
 import 'package:movie_app/UI/Navigationbar/Profile/EditProfile/ListAvatar.dart';
 import 'package:movie_app/UI/Navigationbar/Profile/ProfileHome.dart';
 import 'package:movie_app/assets/AppColors.dart';
 import 'package:movie_app/assets/Fontspath.dart';
 import 'package:movie_app/assets/ImagePath.dart';
+import 'package:movie_app/bloc/DeleteBloc/delete_bloc.dart';
+import 'package:movie_app/bloc/DeleteBloc/delete_event.dart';
+import 'package:movie_app/bloc/DeleteBloc/delete_state.dart';
 import 'package:movie_app/bloc/profileBloc/DataProfile_bloc.dart';
 import 'package:movie_app/bloc/profileBloc/DataProfile_event.dart';
 import 'package:movie_app/bloc/profileBloc/DataProfile_state.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EditProfile extends StatefulWidget {
   static const String RouteName = 'EditProfile';
@@ -39,54 +44,83 @@ class _EditProfileState extends State<EditProfile> {
         ),
         centerTitle: true,
       ),
-      body: BlocBuilder<DataProfileBloc, DataProfileState>(
-        builder: (context, state) {
-          if (state is ProfileUpdated) {
-            nameController.text = state.name;
-            phoneController.text = state.phoneNumber;
-          }
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(height: height * 0.03),
-              InkWell(
-                onTap: showlistbottonsheet,
-                child: SizedBox(
-                  width: width * 0.3, // Constraining the image size
-                  height: width * 0.3,
-                  child: Image.asset(
-                    state is ProfileUpdated ? state.selectedImage : ImagePath.face1,
-                    fit: BoxFit.cover,
-                  ),
+      body: MultiBlocListener(
+        listeners: [
+          BlocListener<DataProfileBloc, DataProfileState>(
+            listener: (context, state) {
+              if (state is ProfileUpdated) {
+                nameController.text = state.name;
+                phoneController.text = state.phoneNumber;
+              }
+            },
+          ),
+          BlocListener<DeleteAccountBloc, DeleteAccountState>(
+            listener: (context, state) {
+              if (state is DeleteAccountSuccess) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Account deleted successfully")),
+                );
+                Navigator.pushReplacementNamed(context, login.RouteName);
+              } else if (state is DeleteAccountFailure) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(state.error)),
+                );
+              }
+            },
+          ),
+        ],
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(height: height * 0.03),
+            InkWell(
+              onTap: showlistbottonsheet,
+              child: SizedBox(
+                width: width * 0.3,
+                height: width * 0.3,
+                child: Image.asset(
+                  ImagePath.face1,
+                  fit: BoxFit.cover,
                 ),
               ),
-              SizedBox(height: height * 0.03),
-              buildTextField(Icons.person, "Name", nameController, (value) {
-                context.read<DataProfileBloc>().add(UpdateName(value));
-              }),
-              SizedBox(height: height * 0.01),
-              buildTextField(Icons.phone, "Phone Number", phoneController, (value) {
-                context.read<DataProfileBloc>().add(UpdatePhoneNumber(value));
-              }),
-              SizedBox(height: height * 0.01),
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    buildButton(AppColors.redcolor, "Delete Account", () {}),
-                    buildButton(AppColors.yellocolor, "Update Data", () {
-                      setState(() {
-                        isclick = true;
-                      });
-                      Navigator.pushNamed(context, HomeNavigationbar.RouteName);
-                    }),
-                  ],
-                ),
+            ),
+            SizedBox(height: height * 0.03),
+            buildTextField(Icons.person, "Name", nameController, (value) {
+              context.read<DataProfileBloc>().add(UpdateName(value));
+            }),
+            SizedBox(height: height * 0.01),
+            buildTextField(Icons.phone, "Phone Number", phoneController, (value) {
+              context.read<DataProfileBloc>().add(UpdatePhoneNumber(value));
+            }),
+            SizedBox(height: height * 0.01),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  buildButton(AppColors.redcolor, "Delete Account", () async {
+                    final prefs = await SharedPreferences.getInstance();
+                    final token = prefs.getString('auth_token');
+
+                    if (token != null) {
+                      context.read<DeleteAccountBloc>().add(DeleteAccountRequested(token));
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("No authentication token found!")),
+                      );
+                    }
+                  }),
+                  buildButton(AppColors.yellocolor, "Update Data", () {
+                    setState(() {
+                      isclick = true;
+                    });
+                    Navigator.pushNamed(context, HomeNavigationbar.RouteName);
+                  }),
+                ],
               ),
-              SizedBox(height: height * 0.02),
-            ],
-          );
-        },
+            ),
+            SizedBox(height: height * 0.02),
+          ],
+        ),
       ),
     );
   }
@@ -125,7 +159,7 @@ class _EditProfileState extends State<EditProfile> {
   Widget buildButton(Color color, String text, VoidCallback onPressed) {
     return Container(
       padding: EdgeInsets.all(10),
-      width: double.infinity, // Ensures full width
+      width: double.infinity,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           padding: EdgeInsets.all(10),
@@ -148,5 +182,11 @@ class _EditProfileState extends State<EditProfile> {
       context: context,
       builder: (context) => ListAvatar(),
     );
+  }
+
+  Future<void> _logout(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('auth_token');
+    Navigator.pushNamed(context, login.RouteName);
   }
 }

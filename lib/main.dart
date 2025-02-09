@@ -17,6 +17,7 @@ import 'package:movie_app/UI/onboarding/onboarding_page6.dart';
 import 'package:movie_app/api/Signin%20Api/LoginRepository.dart';
 import 'package:movie_app/api/Signin%20Api/ModelSignin.dart';
 import 'package:movie_app/api/SignupApi/SignupRepository.dart';
+import 'package:movie_app/bloc/DeleteBloc/delete_bloc.dart';
 import 'package:movie_app/bloc/ForgetpasswordBloc/forgetpassword_bloc.dart';
 import 'package:movie_app/bloc/LanguageBloc/language_bloc.dart';
 import 'package:movie_app/bloc/LanguageBloc/language_state.dart';
@@ -41,6 +42,7 @@ void main() async {
             BlocProvider(create: (context) => SignupBloc(authRepositorySingup),),
             BlocProvider(create: (context) => ForgetpasswordBloc()),
             BlocProvider(create: (context) => DataProfileBloc()),
+            BlocProvider(create: (context) => DeleteAccountBloc(authRepositorylogin)),
             //BlocProvider(create: (context) => ImageBloc()),
           ],
           child: MyApp()
