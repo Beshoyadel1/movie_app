@@ -32,12 +32,6 @@
             final _formKey = GlobalKey<FormState>();
             bool _isPasswordVisible = false;
             bool _isRePasswordVisible = false;
-            bool _nameError = false;
-            bool _emailError = false;
-            bool _passwordError = false;
-            bool _RepasswordError = false;
-            bool _phoneNumberError = false;
-
 
             @override
             Widget build(BuildContext context) {
@@ -60,7 +54,7 @@
                   ),
                 ),
                 backgroundColor: AppColors.blackcolor,
-                body:               BlocConsumer<SignupBloc, SignupState>(
+                body:BlocConsumer<SignupBloc, SignupState>(
                     listener: (context, state) {
                       if (state is SignupSuccess) {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.response.message ?? 'Signup successful!')));
@@ -97,7 +91,10 @@
                 height: height*0.02,
                 ),
                 Text('Avatar',style: Fontspath.w400Inter14(color: AppColors.whitecolor),textAlign: TextAlign.center,),
-                Container(
+                  SizedBox(
+                    height: height*0.02,
+                  ),
+                  Container(
                 //padding: EdgeInsets.all(20),
                 child:TextFormField(
                 style: TextStyle(color: AppColors.whitecolor),
@@ -201,10 +198,18 @@
                 height: height*0.02,
                 ),
                 TextFormField(
+                  keyboardType: TextInputType.phone,
                 style: TextStyle(color: AppColors.whitecolor),
                 controller: _phoneNumberController,
-                  validator: (value) => value!.isEmpty ? "Enter PhoneNumber" : null,
-                  decoration: InputDecoration(
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Enter Phone Number";
+                    } else if (!RegExp(r'^\d{11}$').hasMatch(value)) {
+                      return "Phone number must be 11 digits";
+                    }
+                    return null;
+                  },
+                decoration: InputDecoration(
                 fillColor: AppColors.graycolor,
                 filled: true,
                 labelText: AppLocalizations.of(context)!.phone_number,
@@ -232,16 +237,18 @@
                 ),
                 ),
                   onPressed: () {
-                    BlocProvider.of<SignupBloc>(context).add(
-                      SignupButtonPressed(
-                        name: _nameController.text,
-                        email: _emailController.text,
-                        phone: _phoneNumberController.text,
-                        password: _passwordController.text,
-                        confirmPassword: _RepasswordController.text,
-                        avaterId: 1
-                      ),
-                    );
+                    if (_formKey.currentState!.validate()) {
+                      BlocProvider.of<SignupBloc>(context).add(
+                        SignupButtonPressed(
+                            name: _nameController.text,
+                            email: _emailController.text,
+                            phone: _phoneNumberController.text,
+                            password: _passwordController.text,
+                            confirmPassword: _RepasswordController.text,
+                            avaterId: 1
+                        ),
+                      );
+                    }
                   },
                   child: Text("Create Account",style: Fontspath.w400Inter20(color: AppColors.blackcolor),),
                 )
@@ -299,7 +306,6 @@
                 onTap: (){
                 context.read<LanguageBloc>().add(ChangeLanguage('ar'));
                 setState(() {
-
                 });
                 },
                 child: Image.asset(

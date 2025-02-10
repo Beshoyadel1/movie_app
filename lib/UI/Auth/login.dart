@@ -143,11 +143,13 @@ class _loginState extends State<login> {
                             ),
                           ),
                           onPressed: () {
-                            String email = _emailController.text;
-                            String password = _passwordController.text;
-                            context.read<LoginBloc>().add(
-                              LoginButtonPressed(email: email, password: password),
-                            );
+                            if (_formKey.currentState!.validate()) {
+                              String email = _emailController.text;
+                              String password = _passwordController.text;
+                              context.read<LoginBloc>().add(
+                                LoginButtonPressed(email: email, password: password),
+                              );
+                            }
                           },
                           child:Text(AppLocalizations.of(context)!.login,style: Fontspath.w400Inter20(color: AppColors.graycolor),)),
                     ),

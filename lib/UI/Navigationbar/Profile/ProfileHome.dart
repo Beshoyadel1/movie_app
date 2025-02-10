@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movie_app/UI/Auth/login.dart';
 import 'package:movie_app/UI/Navigationbar/Profile/EditProfile/EditProfile.dart';
+import 'package:movie_app/UI/Navigationbar/Profile/EditProfile/ResetPasswordScreen.dart';
 import 'package:movie_app/UI/Navigationbar/Profile/History.dart';
 import 'package:movie_app/UI/Navigationbar/Profile/Watch%20List.dart';
 import 'package:movie_app/assets/AppColors.dart';

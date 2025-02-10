@@ -12,7 +12,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
       emit(SignupLoading());
       try {
         final response = await repository.signup(
-            event.name, event.email, event.phone, event.password, event.confirmPassword, event.avaterId);
+            event.name, event.email, '+2${event.phone}', event.password, event.confirmPassword, event.avaterId);
         emit(SignupSuccess(response));
       } catch (e) {
         emit(SignupFailure(e.toString()));

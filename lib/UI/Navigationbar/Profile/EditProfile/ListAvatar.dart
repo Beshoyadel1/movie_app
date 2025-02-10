@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/assets/AppColors.dart';
@@ -9,7 +8,6 @@ import 'package:movie_app/bloc/profileBloc/DataProfile_state.dart';
 
 class ListAvatar extends StatelessWidget {
   const ListAvatar({super.key});
-
   @override
   Widget build(BuildContext context) {
     List<String> images = [

@@ -13,7 +13,6 @@ class LoginRepository{
       headers: {"Content-Type": "application/json"},
       body: jsonEncode({"email": email, "password": password}),
     );
-
     if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body);
 
@@ -28,7 +27,7 @@ class LoginRepository{
   }
   Future<bool> deleteAccount(String token) async {
     final response = await http.delete(
-      Uri.parse("https://route-movie-apis.vercel.app/profile"),
+      Uri.parse("${ApiValue.baseUrl}/profile"),
       headers: {
         "Authorization": "Bearer $token",
         "Content-Type": "application/json"
@@ -37,6 +36,26 @@ class LoginRepository{
 
     if (response.statusCode == 200) {
       return true;
+    } else {
+      return false;
+    }
+  }
+  Future<bool> resetPassword(String token, String oldPassword, String newPassword) async {
+    final response = await http.patch(
+      Uri.parse("${ApiValue.baseUrl}/auth/reset-password"),
+      headers: {
+        "Authorization": "Bearer $token",
+        "Content-Type": "application/json",
+      },
+      body: jsonEncode({
+        "oldPassword": oldPassword,
+        "newPassword": newPassword,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      return jsonData["message"] == "Password updated successfully";
     } else {
       return false;
     }

@@ -19,12 +19,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
     try {
       final SigninResponse response = await authRepository.login(event.email, event.password);
-
       if (response.token != null) {
-        // Store the token locally
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('auth_token', response.token!);
-
         emit(LoginSuccess(message: response.message!, token: response.token!));
       } else {
         emit(LoginFailure(error: response.message ?? "Login failed"));

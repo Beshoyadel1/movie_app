@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/UI/Auth/login.dart';
 import 'package:movie_app/UI/Navigationbar/HomeNavigationbar.dart';
 import 'package:movie_app/UI/Navigationbar/Profile/EditProfile/ListAvatar.dart';
+import 'package:movie_app/UI/Navigationbar/Profile/EditProfile/ResetPasswordScreen.dart';
 import 'package:movie_app/UI/Navigationbar/Profile/ProfileHome.dart';
 import 'package:movie_app/assets/AppColors.dart';
 import 'package:movie_app/assets/Fontspath.dart';
@@ -93,6 +94,13 @@ class _EditProfileState extends State<EditProfile> {
               context.read<DataProfileBloc>().add(UpdatePhoneNumber(value));
             }),
             SizedBox(height: height * 0.01),
+            InkWell(
+              onTap: (){
+                Navigator.pushNamed(context, ResetPasswordScreen.RouteName);
+              },
+                child: Text('RestPassword',style: Fontspath.w400Inter20(color: AppColors.whitecolor),
+                )
+            ),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
