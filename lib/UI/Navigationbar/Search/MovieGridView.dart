@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/UI/Navigationbar/Home/DetailsMove/DetailsMovieScreen.dart';
 import 'package:movie_app/UI/Navigationbar/Home/ItemViewMovie.dart';
-import 'package:movie_app/UI/Navigationbar/custom%20widget/MovieList.dart';
+import 'package:movie_app/UI/custom%20widget/MovieList.dart';
 
 class MovieGridView extends StatelessWidget {
   const MovieGridView({super.key});

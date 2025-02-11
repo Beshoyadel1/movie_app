@@ -1,8 +1,10 @@
-          import 'package:flutter/cupertino.dart';
+          import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/cupertino.dart';
           import 'package:flutter/material.dart';
           import 'package:flutter_bloc/flutter_bloc.dart';
           import 'package:flutter_gen/gen_l10n/app_localizations.dart';
           import 'package:movie_app/UI/Auth/login.dart';
+import 'package:movie_app/UI/custom%20widget/AvatarList.dart';
           import 'package:movie_app/assets/AppColors.dart';
           import 'package:movie_app/assets/Fontspath.dart';
           import 'package:movie_app/assets/ImagePath.dart';
@@ -32,6 +34,7 @@
             final _formKey = GlobalKey<FormState>();
             bool _isPasswordVisible = false;
             bool _isRePasswordVisible = false;
+            int avatarId = 0;
 
             @override
             Widget build(BuildContext context) {
@@ -58,6 +61,7 @@
                     listener: (context, state) {
                       if (state is SignupSuccess) {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.response.message ?? 'Signup successful!')));
+                        Navigator.pushNamed(context, login.RouteName);
                       } else if (state is SignupFailure) {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.error)));
                       }
@@ -79,14 +83,48 @@
                 SizedBox(
                 height: height*0.05,
                 ),
-                Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                Image.asset(ImagePath.register1),
-                Image.asset(ImagePath.register2),
-                Image.asset(ImagePath.register3)
-                ],
-                ),
+                  CarouselSlider(
+                    options: CarouselOptions(
+                      height: height*0.1,
+                      viewportFraction: width*0.0008,
+                      enlargeCenterPage: true,
+                      enableInfiniteScroll: true,
+
+                      onPageChanged: (index, reason) {
+                        setState(() {
+                          avatarId = index;
+                        });
+                      },
+                    ),
+                    items: Avatar.avatarImages.map((image) {
+                      int index = Avatar.avatarImages.indexOf(image);
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            avatarId = index;
+                          });
+                        },
+                        child: Container(
+                          margin: EdgeInsets.symmetric(horizontal: 5),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: avatarId == index
+                                  ? AppColors.yellocolor
+                                  : Colors.transparent,
+                              width: 3,
+                            ),
+                            shape: BoxShape.circle,
+                          ),
+                          child: CircleAvatar(
+                            radius: 50,
+                            backgroundImage: AssetImage(image),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+
+                  SizedBox(height: height * 0.02),
                 SizedBox(
                 height: height*0.02,
                 ),
@@ -245,7 +283,7 @@
                             phone: _phoneNumberController.text,
                             password: _passwordController.text,
                             confirmPassword: _RepasswordController.text,
-                            avaterId: 1
+                            avaterId: avatarId
                         ),
                       );
                     }

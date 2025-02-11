@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:movie_app/UI/Navigationbar/Home/DetailsMove/DetailsMovieScreen.dart';
 import 'package:movie_app/UI/Navigationbar/Home/ItemViewMovie.dart';
-import 'package:movie_app/UI/Navigationbar/custom%20widget/MovieList.dart';
+import 'package:movie_app/UI/custom%20widget/MovieList.dart';
 import 'package:movie_app/assets/AppColors.dart';
 import 'package:movie_app/assets/Fontspath.dart';
 import 'package:movie_app/assets/ImagePath.dart';

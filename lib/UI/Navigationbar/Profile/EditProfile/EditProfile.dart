@@ -1,14 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/UI/Auth/login.dart';
 import 'package:movie_app/UI/Navigationbar/HomeNavigationbar.dart';
 import 'package:movie_app/UI/Navigationbar/Profile/EditProfile/ListAvatar.dart';
 import 'package:movie_app/UI/Navigationbar/Profile/EditProfile/ResetPasswordScreen.dart';
-import 'package:movie_app/UI/Navigationbar/Profile/ProfileHome.dart';
+import 'package:movie_app/UI/custom%20widget/AvatarList.dart';
 import 'package:movie_app/assets/AppColors.dart';
 import 'package:movie_app/assets/Fontspath.dart';
-import 'package:movie_app/assets/ImagePath.dart';
 import 'package:movie_app/bloc/DeleteBloc/delete_bloc.dart';
 import 'package:movie_app/bloc/DeleteBloc/delete_event.dart';
 import 'package:movie_app/bloc/DeleteBloc/delete_state.dart';
@@ -28,12 +26,23 @@ class EditProfile extends StatefulWidget {
 class _EditProfileState extends State<EditProfile> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
-  bool isclick = false;
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<DataProfileBloc>().add(LoadProfile());
+  }
 
   @override
   Widget build(BuildContext context) {
-    var height = MediaQuery.of(context).size.height;
-    var width = MediaQuery.of(context).size.width;
+    var height = MediaQuery
+        .of(context)
+        .size
+        .height;
+    var width = MediaQuery
+        .of(context)
+        .size
+        .width;
 
     return Scaffold(
       backgroundColor: AppColors.blackcolor,
@@ -49,9 +58,15 @@ class _EditProfileState extends State<EditProfile> {
         listeners: [
           BlocListener<DataProfileBloc, DataProfileState>(
             listener: (context, state) {
-              if (state is ProfileUpdated) {
-                nameController.text = state.name;
-                phoneController.text = state.phoneNumber;
+              if (state is ProfileSavedSuccess) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Profile updated successfully")),
+                );
+                Navigator.pushNamed(context, HomeNavigationbar.RouteName);
+              } else if (state is ProfileError) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(state.message)),
+                );
               }
             },
           ),
@@ -70,70 +85,100 @@ class _EditProfileState extends State<EditProfile> {
             },
           ),
         ],
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(height: height * 0.03),
-            InkWell(
-              onTap: showlistbottonsheet,
-              child: SizedBox(
-                width: width * 0.3,
-                height: width * 0.3,
-                child: Image.asset(
-                  ImagePath.face1,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            SizedBox(height: height * 0.03),
-            buildTextField(Icons.person, "Name", nameController, (value) {
-              context.read<DataProfileBloc>().add(UpdateName(value));
-            }),
-            SizedBox(height: height * 0.01),
-            buildTextField(Icons.phone, "Phone Number", phoneController, (value) {
-              context.read<DataProfileBloc>().add(UpdatePhoneNumber(value));
-            }),
-            SizedBox(height: height * 0.01),
-            InkWell(
-              onTap: (){
-                Navigator.pushNamed(context, ResetPasswordScreen.RouteName);
-              },
-                child: Text('RestPassword',style: Fontspath.w400Inter20(color: AppColors.whitecolor),
-                )
-            ),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  buildButton(AppColors.redcolor, "Delete Account", () async {
-                    final prefs = await SharedPreferences.getInstance();
-                    final token = prefs.getString('auth_token');
-
-                    if (token != null) {
-                      context.read<DeleteAccountBloc>().add(DeleteAccountRequested(token));
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("No authentication token found!")),
-                      );
-                    }
-                  }),
-                  buildButton(AppColors.yellocolor, "Update Data", () {
-                    setState(() {
-                      isclick = true;
-                    });
-                    Navigator.pushNamed(context, HomeNavigationbar.RouteName);
-                  }),
-                ],
-              ),
-            ),
-            SizedBox(height: height * 0.02),
-          ],
+        child: BlocBuilder<DataProfileBloc, DataProfileState>(
+          builder: (context, state) {
+            if (state is ProfileLoading) {
+              return Center(child: CircularProgressIndicator());
+            } else if (state is ProfileUpdated) {
+              return buildProfileForm(state, height, width);
+            } else {
+              return Center(child: Text("Failed to load profile"));
+            }
+          },
         ),
       ),
     );
   }
 
-  Widget buildTextField(IconData icon, String hintText, TextEditingController controller, Function(String) onChanged) {
+  Widget buildProfileForm(ProfileUpdated state, double height, double width) {
+    nameController.text = state.name;
+    phoneController.text = state.phoneNumber;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        SizedBox(height: height * 0.03),
+        InkWell(
+          onTap: showListBottomSheet,
+          child: CircleAvatar(
+            radius: width * 0.15,
+            backgroundImage: AssetImage(
+                Avatar.avatarImages[state.avatarId]), // Avatar
+          ),
+        ),
+        SizedBox(height: height * 0.03),
+
+        // Name Field
+        BlocSelector<DataProfileBloc, DataProfileState, String>(
+          selector: (state) => (state is ProfileUpdated) ? state.name : '',
+          builder: (context, name) {
+            return buildTextField(
+              Icons.person,
+              "Name",
+              nameController..text = name,
+                  (value) =>
+                  context.read<DataProfileBloc>().add(UpdateName(value)),
+            );
+          },
+        ),
+        SizedBox(height: height * 0.01),
+
+        // Phone Number Field
+        BlocSelector<DataProfileBloc, DataProfileState, String>(
+          selector: (state) =>
+          (state is ProfileUpdated)
+              ? state.phoneNumber
+              : '',
+          builder: (context, phone) {
+            return buildTextField(
+              Icons.phone,
+              "Phone Number",
+              phoneController..text = phone,
+                  (value) =>
+                  context.read<DataProfileBloc>().add(UpdatePhoneNumber(value)),
+            );
+          },
+        ),
+        SizedBox(height: height * 0.01),
+
+        // Reset Password
+        InkWell(
+          onTap: () {
+            Navigator.pushNamed(context, ResetPasswordScreen.RouteName);
+          },
+          child: Text('Reset Password',
+              style: Fontspath.w400Inter20(color: AppColors.whitecolor)),
+        ),
+
+        // Buttons
+        Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              buildButton(AppColors.redcolor, "Delete Account", deleteAccount),
+              buildButton(AppColors.yellocolor, "Save", () {
+                context.read<DataProfileBloc>().add(SaveProfile());
+              }),
+            ],
+          ),
+        ),
+        SizedBox(height: height * 0.02),
+      ],
+    );
+  }
+
+  Widget buildTextField(IconData icon, String hintText,
+      TextEditingController controller, Function(String) onChanged) {
     return Padding(
       padding: EdgeInsets.all(10),
       child: Container(
@@ -185,16 +230,22 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 
-  void showlistbottonsheet() {
+  void showListBottomSheet() {
     showModalBottomSheet(
       context: context,
       builder: (context) => ListAvatar(),
-    );
+    ).then((selectedAvatar) {
+      if (selectedAvatar != null) {
+        context.read<DataProfileBloc>().add(UpdateAvatarId(selectedAvatar));
+      }
+    });
   }
 
-  Future<void> _logout(BuildContext context) async {
+  void deleteAccount() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('auth_token');
-    Navigator.pushNamed(context, login.RouteName);
+    final token = prefs.getString('auth_token');
+    if (token != null) {
+      context.read<DeleteAccountBloc>().add(DeleteAccountRequested(token));
+    }
   }
 }

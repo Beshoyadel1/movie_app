@@ -1,0 +1,56 @@
+import 'dart:convert';
+import 'package:movie_app/api/ApiValue.dart';
+import 'package:movie_app/api/ProfileApi/ModelProfile.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+
+class ProfileRepository {
+  Future<ProfileResponse?> fetchUserProfile() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString("auth_token");
+
+    if (token == null) return null;
+
+    final response = await http.get(
+      Uri.parse("${ApiValue.baseUrl}/profile"),
+      headers: {
+        "Authorization": "Bearer $token",
+        "Content-Type": "application/json",
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      return ProfileResponse.fromJson(jsonData);
+    }
+    return null;
+  }
+
+  Future<bool> updateProfile({String? name, String? phone, int? avatarId}) async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString("auth_token");
+
+    if (token == null) {
+      print("Error: No auth token found.");
+      return false;
+    }
+
+    final response = await http.patch(
+      Uri.parse("${ApiValue.baseUrl}/profile"),
+      headers: {
+        "Authorization": "Bearer $token",
+        "Content-Type": "application/json",
+      },
+      body: jsonEncode({
+        "name": name,
+        "phone": phone,
+        "avatarId": avatarId,
+      }),
+    );
+
+    print("Update Profile Response Code: ${response.statusCode}");
+    print("Response Body: ${response.body}");
+
+    return response.statusCode == 200;
+  }
+}

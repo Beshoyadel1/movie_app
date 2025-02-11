@@ -6,24 +6,27 @@ import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 import 'package:movie_app/api/ApiValue.dart';
 import 'package:movie_app/api/Signin%20Api/ModelSignin.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 class LoginRepository{
-  Future<SigninResponse> login(String email, String password) async {
+  Future<SigninResponse?> login(String email, String password) async {
     final response = await http.post(
       Uri.parse("${ApiValue.baseUrl}/auth/login"),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode({"email": email, "password": password}),
     );
+
     if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body);
 
-      if (jsonData.containsKey('message')) {
-        return SigninResponse.fromJson(jsonData);
-      } else {
-        return SigninResponse(message: "Unknown response from server");
+      if (jsonData.containsKey('message') && jsonData.containsKey('data')) {
+        final signinResponse = SigninResponse.fromJson(jsonData);
+
+        if (signinResponse.token != null) {
+          return signinResponse; // ✅ Return token, don't store in SharedPreferences
+        }
       }
-    } else {
-      return SigninResponse(message: "Invalid credentials");
     }
+    return null; // Return null if login fails
   }
   Future<bool> deleteAccount(String token) async {
     final response = await http.delete(

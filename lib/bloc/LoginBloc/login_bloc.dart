@@ -4,7 +4,7 @@ import 'package:movie_app/api/Signin%20Api/LoginRepository.dart';
 import 'package:movie_app/api/Signin%20Api/ModelSignin.dart';
 import 'package:movie_app/bloc/LoginBloc/login_event.dart';
 import 'package:movie_app/bloc/LoginBloc/login_state.dart';
-import 'package:shared_preferences/shared_preferences.dart'; // To store token
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final LoginRepository authRepository;
@@ -18,17 +18,20 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     emit(LoginLoading());
 
     try {
-      final SigninResponse response = await authRepository.login(event.email, event.password);
-      if (response.token != null) {
+      final SigninResponse? response = await authRepository.login(event.email, event.password);
+
+      if (response != null && response.token != null) {
         final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('auth_token', response.token!);
-        emit(LoginSuccess(message: response.message!, token: response.token!));
+        await prefs.setString('auth_token', response.token!); // ✅ Store token
+        emit(LoginSuccess(
+          message: response.message ?? "Login successful",
+          token: response.token!,
+        ));
       } else {
-        emit(LoginFailure(error: response.message ?? "Login failed"));
+        emit(LoginFailure(error: response?.message ?? "Invalid credentials"));
       }
     } catch (e) {
-      emit(LoginFailure(error: "An error occurred: $e"));
+      emit(LoginFailure(error: "An unexpected error occurred. Please try again."));
     }
   }
-
 }

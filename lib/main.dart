@@ -4,7 +4,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:movie_app/UI/Auth/CreateAccount.dart';
 import 'package:movie_app/UI/Auth/Forget%20Password.dart';
 import 'package:movie_app/UI/Auth/login.dart';
-import 'package:movie_app/UI/Navigationbar/Home/Home_Screen.dart';
 import 'package:movie_app/UI/Navigationbar/HomeNavigationbar.dart';
 import 'package:movie_app/UI/Navigationbar/Profile/EditProfile/EditProfile.dart';
 import 'package:movie_app/UI/Navigationbar/Profile/EditProfile/ResetPasswordScreen.dart';
@@ -15,6 +14,7 @@ import 'package:movie_app/UI/onboarding/onboarding_page3.dart';
 import 'package:movie_app/UI/onboarding/onboarding_page4.dart';
 import 'package:movie_app/UI/onboarding/onboarding_page5.dart';
 import 'package:movie_app/UI/onboarding/onboarding_page6.dart';
+import 'package:movie_app/api/ProfileApi/ProfileRepository.dart';
 import 'package:movie_app/api/Signin%20Api/LoginRepository.dart';
 import 'package:movie_app/api/SignupApi/SignupRepository.dart';
 import 'package:movie_app/bloc/DeleteBloc/delete_bloc.dart';
@@ -30,6 +30,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final authRepositorySignup = SignupRepository();
   final authRepositoryLogin = LoginRepository();
+  final authRepositoryprofile = ProfileRepository();
 
   runApp(
     MultiBlocProvider(
@@ -38,7 +39,7 @@ void main() async {
         BlocProvider(create: (context) => OnboardingCubit()),
         BlocProvider(create: (context) => LoginBloc(authRepositoryLogin)),
         BlocProvider(create: (context) => SignupBloc(authRepositorySignup)),
-        BlocProvider(create: (context) => DataProfileBloc()),
+        BlocProvider(create: (context) => DataProfileBloc(authRepositoryprofile)),
         BlocProvider(create: (context) => DeleteAccountBloc(authRepositoryLogin)),
         BlocProvider(create: (context) => ResetPasswordBloc(loginRepository: authRepositoryLogin)),
       ],
