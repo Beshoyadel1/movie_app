@@ -32,7 +32,10 @@ class DataProfileBloc extends Bloc<DataProfileEvent, DataProfileState> {
   void _onUpdateAvatarId(UpdateAvatarId event, Emitter<DataProfileState> emit) {
     if (state is ProfileUpdated) {
       final currentState = state as ProfileUpdated;
-      emit(ProfileUpdated(currentState.name, currentState.phoneNumber, event.avatarId));
+      final newState = ProfileUpdated(currentState.name, currentState.phoneNumber, event.avatarId);
+      print("Updating avatarId: ${event.avatarId}");
+      print("New State: $newState"); // Debugging
+      emit(newState);
     }
   }
 
@@ -41,7 +44,7 @@ class DataProfileBloc extends Bloc<DataProfileEvent, DataProfileState> {
       final currentState = state as ProfileUpdated;
       final newState = ProfileUpdated(event.name, currentState.phoneNumber, currentState.avatarId);
 
-      print("Updating name: ${event.name}"); // Debugging
+      print("Updating name: ${event.name}");
       print("New State: $newState"); // Debugging
 
       emit(newState);
@@ -51,7 +54,10 @@ class DataProfileBloc extends Bloc<DataProfileEvent, DataProfileState> {
   void _onUpdatePhoneNumber(UpdatePhoneNumber event, Emitter<DataProfileState> emit) {
     if (state is ProfileUpdated) {
       final currentState = state as ProfileUpdated;
-      emit(ProfileUpdated(currentState.name, event.phoneNumber, currentState.avatarId));
+      final newState = ProfileUpdated(currentState.name, event.phoneNumber, currentState.avatarId);
+      print("Updating phoneNumber: ${event.phoneNumber}");
+      print("New State: $newState"); // Debugging
+      emit(newState);
     }
   }
 

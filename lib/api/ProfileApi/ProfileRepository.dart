@@ -44,7 +44,7 @@ class ProfileRepository {
       body: jsonEncode({
         "name": name,
         "phone": phone,
-        "avatarId": avatarId,
+        "avaterId": avatarId,
       }),
     );
 

@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movie_app/UI/Auth/login.dart';
 import 'package:movie_app/UI/Navigationbar/Profile/EditProfile/EditProfile.dart';
@@ -32,6 +30,7 @@ class _ProfileHomeState extends State<ProfileHome> with SingleTickerProviderStat
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
 
+    // Load the user profile when the screen opens
     context.read<DataProfileBloc>().add(LoadProfile());
   }
 
@@ -51,9 +50,7 @@ class _ProfileHomeState extends State<ProfileHome> with SingleTickerProviderStat
       body: BlocBuilder<DataProfileBloc, DataProfileState>(
         builder: (context, state) {
           if (state is ProfileLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return const Center(child: CircularProgressIndicator());
           } else if (state is ProfileUpdated) {
             String selectedImage = Avatar.avatarImages[state.avatarId];
             String userName = state.name;
@@ -66,7 +63,7 @@ class _ProfileHomeState extends State<ProfileHome> with SingleTickerProviderStat
                   children: [
                     Column(
                       children: [
-                        Image.asset(selectedImage, width: 80),
+                        Image.asset(selectedImage, width: 80), // Show the saved avatar
                         Text(
                           userName,
                           style: Fontspath.w700Inter20(color: AppColors.whitecolor),
@@ -111,8 +108,12 @@ class _ProfileHomeState extends State<ProfileHome> with SingleTickerProviderStat
                           borderRadius: BorderRadius.circular(13),
                         ),
                       ),
-                      onPressed: () {
-                        Navigator.pushNamed(context, EditProfile.RouteName);
+                      onPressed: () async {
+                        // Navigate to Edit Profile
+                        await Navigator.pushNamed(context, EditProfile.RouteName);
+
+                        // Reload profile after returning
+                        context.read<DataProfileBloc>().add(LoadProfile());
                       },
                       child: Text(
                         'Edit Profile',
@@ -181,12 +182,7 @@ class _ProfileHomeState extends State<ProfileHome> with SingleTickerProviderStat
               ],
             );
           } else {
-            return Center(
-              child: Text(
-                "Failed to load profile data",
-                style: Fontspath.w700Inter20(color: Colors.red),
-              ),
-            );
+            return Center(child: CircularProgressIndicator());
           }
         },
       ),

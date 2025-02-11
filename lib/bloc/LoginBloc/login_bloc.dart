@@ -22,7 +22,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
       if (response != null && response.token != null) {
         final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('auth_token', response.token!); // ✅ Store token
+        await prefs.setString('auth_token', response.token!);
         emit(LoginSuccess(
           message: response.message ?? "Login successful",
           token: response.token!,
