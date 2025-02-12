@@ -6,7 +6,8 @@ import 'package:movie_app/assets/ImagePath.dart';
 class ItemViewMovie extends StatelessWidget {
   String rate,PathImage;
   double widthscreen,heightscreen;
-   ItemViewMovie({required this.PathImage,required this.rate,required this.heightscreen,required this.widthscreen});
+   ItemViewMovie({required this.PathImage,required this.rate,
+     required this.heightscreen,required this.widthscreen});
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +18,10 @@ class ItemViewMovie extends StatelessWidget {
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(15),
-          child: Image.asset(
+          child: Image.network(
             PathImage,
             width: width*widthscreen,
-            height: height*heightscreen, // Adjust height
+            height: height*heightscreen,
             fit: BoxFit.cover,
           ),
         ),

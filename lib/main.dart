@@ -14,13 +14,17 @@ import 'package:movie_app/UI/onboarding/onboarding_page3.dart';
 import 'package:movie_app/UI/onboarding/onboarding_page4.dart';
 import 'package:movie_app/UI/onboarding/onboarding_page5.dart';
 import 'package:movie_app/UI/onboarding/onboarding_page6.dart';
+import 'package:movie_app/api/AddMovieLoveApi/FavoriteRepository.dart';
+import 'package:movie_app/api/MovieDetailsApi/MovieDetailsRepository.dart';
 import 'package:movie_app/api/ProfileApi/ProfileRepository.dart';
 import 'package:movie_app/api/Signin%20Api/LoginRepository.dart';
 import 'package:movie_app/api/SignupApi/SignupRepository.dart';
+import 'package:movie_app/bloc/AddFavoriteMoveBloc/add_favorite_movie_bloc.dart';
 import 'package:movie_app/bloc/DeleteBloc/delete_bloc.dart';
 import 'package:movie_app/bloc/LanguageBloc/language_bloc.dart';
 import 'package:movie_app/bloc/LanguageBloc/language_state.dart';
 import 'package:movie_app/bloc/LoginBloc/login_bloc.dart';
+import 'package:movie_app/bloc/MovieDetailsBloc/movie_details_bloc.dart';
 import 'package:movie_app/bloc/OnboardingBloc/onboarding__bloc.dart';
 import 'package:movie_app/bloc/createAccountBloc/create_account_bloc.dart';
 import 'package:movie_app/bloc/profileBloc/DataProfile_bloc.dart';
@@ -28,20 +32,26 @@ import 'package:movie_app/bloc/resetpasswordBloc/reset_password_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final authRepositorySignup = SignupRepository();
-  final authRepositoryLogin = LoginRepository();
-  final authRepositoryprofile = ProfileRepository();
+  final RepositorySignup = SignupRepository();
+  final RepositoryLogin = LoginRepository();
+  final Repositoryprofile = ProfileRepository();
+  final RepositoryaddMovie = FavoriteRepository();
+  final RepositoryDetailsMovie = MovieRepository();
+
 
   runApp(
     MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => LanguageBloc()),
         BlocProvider(create: (context) => OnboardingCubit()),
-        BlocProvider(create: (context) => LoginBloc(authRepositoryLogin)),
-        BlocProvider(create: (context) => SignupBloc(authRepositorySignup)),
-        BlocProvider(create: (context) => DataProfileBloc(authRepositoryprofile)),
-        BlocProvider(create: (context) => DeleteAccountBloc(authRepositoryLogin)),
-        BlocProvider(create: (context) => ResetPasswordBloc(loginRepository: authRepositoryLogin)),
+        BlocProvider(create: (context) => LoginBloc(RepositoryLogin)),
+        BlocProvider(create: (context) => SignupBloc(RepositorySignup)),
+        BlocProvider(create: (context) => DataProfileBloc(Repositoryprofile)),
+        BlocProvider(create: (context) => DeleteAccountBloc(RepositoryLogin)),
+        BlocProvider(create: (context) => ResetPasswordBloc(loginRepository: RepositoryLogin)),
+        BlocProvider(create: (context) => AddFavoriteBloc(RepositoryaddMovie)),
+        BlocProvider(create: (context) => MovieBloc(RepositoryDetailsMovie)),
+
       ],
       child: MyApp(),
     ),
@@ -61,7 +71,7 @@ class MyApp extends StatelessWidget {
           supportedLocales: AppLocalizations.supportedLocales,
           locale: Locale(state.languageCode),
           themeMode: ThemeMode.dark,
-          initialRoute: login.RouteName,
+          initialRoute: HomeNavigationbar.RouteName,
           routes: {
             onboarding_page1.RouteName: (context) => onboarding_page1(),
             onboarding_page2.RouteName: (context) => onboarding_page2(),

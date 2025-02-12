@@ -12,7 +12,6 @@ class DeleteAccountBloc extends Bloc<DeleteAccountEvent, DeleteAccountState> {
       try {
         bool success = await repository.deleteAccount(event.token);
         if (success) {
-          // Clear token on successful deletion
           final prefs = await SharedPreferences.getInstance();
           await prefs.remove('auth_token');
           emit(DeleteAccountSuccess());

@@ -34,7 +34,7 @@ class DataProfileBloc extends Bloc<DataProfileEvent, DataProfileState> {
       final currentState = state as ProfileUpdated;
       final newState = ProfileUpdated(currentState.name, currentState.phoneNumber, event.avatarId);
       print("Updating avatarId: ${event.avatarId}");
-      print("New State: $newState"); // Debugging
+      print("New State: $newState");
       emit(newState);
     }
   }
@@ -43,10 +43,8 @@ class DataProfileBloc extends Bloc<DataProfileEvent, DataProfileState> {
     if (state is ProfileUpdated) {
       final currentState = state as ProfileUpdated;
       final newState = ProfileUpdated(event.name, currentState.phoneNumber, currentState.avatarId);
-
       print("Updating name: ${event.name}");
-      print("New State: $newState"); // Debugging
-
+      print("New State: $newState");
       emit(newState);
     }
   }

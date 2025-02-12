@@ -1,58 +1,84 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/UI/Navigationbar/Home/DetailsMove/DetailsMovieScreen.dart';
 import 'package:movie_app/UI/Navigationbar/Home/ItemViewMovie.dart';
-import 'package:movie_app/UI/custom%20widget/MovieList.dart';
+import 'package:movie_app/api/MovieDetailsApi/ModelDetailsMovie.dart';
+import 'package:movie_app/bloc/MovieDetailsBloc/movie_details_bloc.dart';
+import 'package:movie_app/bloc/MovieDetailsBloc/movie_details_event.dart';
+import 'package:movie_app/bloc/MovieDetailsBloc/movie_details_state.dart';
 
-class MovieGridView extends StatelessWidget {
+class MovieGridView extends StatefulWidget {
   const MovieGridView({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    var height = MediaQuery.of(context).size.height;
-    var width = MediaQuery.of(context).size.width;
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(), // Disables scrolling inside another scrollable widget
-      itemCount: (MovieList.movies.length / 2).ceil(), // Ensures correct row count
-      itemBuilder: (context, index) {
-        int firstMovieIndex = index * 2;
-        int secondMovieIndex = firstMovieIndex + 1;
+  State<MovieGridView> createState() => _MovieGridViewState();
+}
 
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _buildMovieItem(context, firstMovieIndex),
-              if (secondMovieIndex < MovieList.movies.length)
-                _buildMovieItem(context, secondMovieIndex)
-            ],
-          ),
-        );
+class _MovieGridViewState extends State<MovieGridView> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<MovieBloc>().add(FetchMovies()); // Trigger Bloc event
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<MovieBloc, MovieState>(
+      builder: (context, state) {
+        if (state is MovieLoading) {
+          return Center(child: CircularProgressIndicator());
+        } else if (state is MovieError) {
+          return Center(child: Text('Error: ${state.message}'));
+        } else if (state is MovieLoaded) {
+          if (state.movies.isEmpty) {
+            return Center(child: Text('No movies available.'));
+          }
+
+          return GridView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            padding: EdgeInsets.all(8),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2, // Two items per row
+              childAspectRatio: 0.7, // Aspect ratio for proper layout
+              crossAxisSpacing: 8,
+              mainAxisSpacing: 8,
+            ),
+            itemCount: state.movies.length,
+            itemBuilder: (context, index) {
+              return _buildMovieItem(context, state.movies[index]);
+            },
+          );
+        }
+        return Center(child: Text('Unexpected state.'));
       },
     );
   }
 
-  Widget _buildMovieItem(BuildContext context, int index) {
-    var movie = MovieList.movies[index];
-    return Expanded(
-      child: InkWell(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => DetailsMovieScreen(
-                imageBackground: movie["image"],
-              ),
+  Widget _buildMovieItem(BuildContext context, Movies movie) {
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailsMovieScreen(
+              rate: movie.rating.toString(),
+              name: movie.name,
+              imageurl: movie.url,
+              year: movie.year.toString(),
+              title: movie.title,
+              descriptionFull: movie.descriptionFull ?? 'No description available.',
+              id: movie.id,
+              imageBackground: movie.backgroundImageOriginal ?? '',
             ),
-          );
-        },
-        child: ItemViewMovie(
-          widthscreen: 0.45,
-          heightscreen: 0.3,
-          PathImage: movie["image"],
-          rate: movie["rating"],
-        ),
+          ),
+        );
+      },
+      child: ItemViewMovie(
+        widthscreen: 0.45,
+        heightscreen: 0.3,
+        PathImage: movie.mediumCoverImage ?? '',
+        rate: movie.rating.toString(),
       ),
     );
   }
