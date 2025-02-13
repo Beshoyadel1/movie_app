@@ -9,6 +9,7 @@ import 'package:movie_app/assets/AppColors.dart';
 import 'package:movie_app/assets/Fontspath.dart';
 import 'package:movie_app/assets/ImagePath.dart';
 import 'package:movie_app/api/AddMovieLoveApi/ModelAddMovie.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DetailsMovieScreen extends StatefulWidget {
   static const String routeName = 'DetailsMovieScreen';
@@ -36,6 +37,16 @@ class _DetailsMovieScreenState extends State<DetailsMovieScreen> {
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
+
+    Future<void> _launchURL(String url) async {
+      Uri uri = Uri.parse(url);
+
+      if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+        print("Could not launch $url");
+        throw Exception("Could not launch $url");
+      }
+    }
+
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -107,7 +118,9 @@ class _DetailsMovieScreenState extends State<DetailsMovieScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    _launchURL(widget.imageurl);
+                  },
                   child: Image.asset(ImagePath.pause),
                 ),
                 Padding(
