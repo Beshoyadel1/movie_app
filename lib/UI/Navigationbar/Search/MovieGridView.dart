@@ -62,14 +62,13 @@ class _MovieGridViewState extends State<MovieGridView> {
           context,
           MaterialPageRoute(
             builder: (context) => DetailsMovieScreen(
-              rate: movie.rating.toString(),
-              name: movie.name,
               imageurl: movie.url,
               year: movie.year.toString(),
-              title: movie.title,
-              descriptionFull: movie.descriptionFull ?? 'No description available.',
+              rate: movie.rating.toString(),
+              title: movie.title.toString(),
+              descriptionFull: movie.descriptionFull.toString(),
               id: movie.id,
-              imageBackground: movie.backgroundImageOriginal ?? '',
+              imageBackground: movie.mediumCoverImage.toString(),
             ),
           ),
         );

@@ -1,15 +1,16 @@
 import 'package:equatable/equatable.dart';
+import 'package:movie_app/api/AddMovieLoveApi/ModelAddMovie.dart';
 
-abstract class AddFavoriteEvent extends Equatable {
+abstract class FavoriteEvent extends Equatable {
   @override
-  List<Object?> get props => [];
+  List<Object> get props => [];
 }
 
-class AddMovieToFavorites extends AddFavoriteEvent {
-  final String movieId;
+class AddFavoriteMovie extends FavoriteEvent {
+  final MovieAddFavourite movie;
 
-  AddMovieToFavorites({required this.movieId});
+  AddFavoriteMovie(this.movie);
 
   @override
-  List<Object?> get props => [movieId];
+  List<Object> get props => [movie];
 }

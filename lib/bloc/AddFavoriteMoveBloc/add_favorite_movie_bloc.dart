@@ -1,24 +1,24 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_app/api/AddMovieLoveApi/ModelAddMovie.dart';
 import 'package:movie_app/api/AddMovieLoveApi/FavoriteRepository.dart';
 import 'package:movie_app/bloc/AddFavoriteMoveBloc/add_favorite_movie_event.dart';
 import 'package:movie_app/bloc/AddFavoriteMoveBloc/add_favorite_movie_state.dart';
 
-class AddFavoriteBloc extends Bloc<AddFavoriteEvent, AddFavoriteState> {
-  final FavoriteRepository repository;
+class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
+  final FavoriteRepository favoriteRepository;
 
-  AddFavoriteBloc(this.repository) : super(AddFavoriteInitial()) {
-    on<AddMovieToFavorites>(_onAddMovieToFavorites);
+  FavoriteBloc(this.favoriteRepository) : super(FavoriteInitial()) {
+    on<AddFavoriteMovie>(_onAddFavoriteMovie);
   }
 
-  Future<void> _onAddMovieToFavorites(
-      AddMovieToFavorites event, Emitter<AddFavoriteState> emit) async {
-    emit(AddFavoriteLoading());
-
+  Future<void> _onAddFavoriteMovie(
+      AddFavoriteMovie event, Emitter<FavoriteState> emit) async {
+    emit(FavoriteLoading());
     try {
-      final response = await repository.addMovieToFavorites(event.movieId);
-      emit(AddFavoriteSuccess(response));
-    } catch (error) {
-      emit(AddFavoriteFailure(error.toString()));
+      final message = await favoriteRepository.addFavorite(event.movie);
+      emit(FavoriteSuccess(message));
+    } catch (e) {
+      emit(FavoriteFailure(e.toString()));
     }
   }
 }

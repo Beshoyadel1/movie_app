@@ -49,7 +49,7 @@ void main() async {
         BlocProvider(create: (context) => DataProfileBloc(Repositoryprofile)),
         BlocProvider(create: (context) => DeleteAccountBloc(RepositoryLogin)),
         BlocProvider(create: (context) => ResetPasswordBloc(loginRepository: RepositoryLogin)),
-        BlocProvider(create: (context) => AddFavoriteBloc(RepositoryaddMovie)),
+        BlocProvider(create: (context) => FavoriteBloc(RepositoryaddMovie)),
         BlocProvider(create: (context) => MovieBloc(RepositoryDetailsMovie)),
 
       ],

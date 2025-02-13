@@ -1,7 +1,6 @@
 class Movies {
   final int id;
   final String title;
-  final String name;
   final String url;
   final int year;
   final double rating;
@@ -12,7 +11,6 @@ class Movies {
 
   Movies({
     required this.id,
-    required this.name,
     required this.url,
     required this.year,
     required this.title,
@@ -27,7 +25,6 @@ class Movies {
     return Movies(
       id: json['id'] ?? 0,
       title: json['title'] ?? '',
-      name: json['title'] ?? '',
       url: json['url'] ?? '',
       year: json['year'] ?? '',
       rating: (json['rating'] ?? 0.0).toDouble(),

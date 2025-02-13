@@ -1,27 +1,28 @@
 import 'package:equatable/equatable.dart';
-import 'package:movie_app/api/AddMovieLoveApi/ModelAddMovie.dart';
 
-abstract class AddFavoriteState extends Equatable {
+abstract class FavoriteState extends Equatable {
   @override
-  List<Object?> get props => [];
+  List<Object> get props => [];
 }
 
-class AddFavoriteInitial extends AddFavoriteState {}
+class FavoriteInitial extends FavoriteState {}
 
-class AddFavoriteLoading extends AddFavoriteState {}
+class FavoriteLoading extends FavoriteState {}
 
-class AddFavoriteSuccess extends AddFavoriteState {
-  final ModelAddMovie response;
-  AddFavoriteSuccess(this.response);
+class FavoriteSuccess extends FavoriteState {
+  final String message;
+
+  FavoriteSuccess(this.message);
 
   @override
-  List<Object?> get props => [response];
+  List<Object> get props => [message];
 }
 
-class AddFavoriteFailure extends AddFavoriteState {
+class FavoriteFailure extends FavoriteState {
   final String error;
-  AddFavoriteFailure(this.error);
+
+  FavoriteFailure(this.error);
 
   @override
-  List<Object?> get props => [error];
+  List<Object> get props => [error];
 }
