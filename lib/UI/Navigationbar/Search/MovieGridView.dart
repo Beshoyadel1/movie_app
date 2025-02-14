@@ -6,6 +6,9 @@ import 'package:movie_app/api/MovieDetailsApi/ModelDetailsMovie.dart';
 import 'package:movie_app/bloc/MovieDetailsBloc/movie_details_bloc.dart';
 import 'package:movie_app/bloc/MovieDetailsBloc/movie_details_event.dart';
 import 'package:movie_app/bloc/MovieDetailsBloc/movie_details_state.dart';
+import 'package:movie_app/bloc/isFavoriteMovieBloc/is_favorite_movie_bloc.dart';
+import 'package:movie_app/bloc/isFavoriteMovieBloc/is_favorite_movie_event.dart';
+import 'package:movie_app/bloc/isFavoriteMovieBloc/is_favorite_movie_state.dart';
 
 class MovieGridView extends StatefulWidget {
   const MovieGridView({super.key});
@@ -58,24 +61,39 @@ class _MovieGridViewState extends State<MovieGridView> {
   Widget _buildMovieItem(BuildContext context, Movies movie) {
     return InkWell(
       onTap: () {
+        context.read<IsFavBloc>().add(CheckFavoriteStatusEvent(movie.id.toString()));
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => DetailsMovieScreen(
-              imageurl: movie.url,
-              year: movie.year.toString(),
-              rate: movie.rating.toString(),
-              title: movie.title.toString(),
-              descriptionFull: movie.descriptionFull.toString(),
-              id: movie.id,
-              imageBackground: movie.mediumCoverImage.toString(),
+            builder: (context) => BlocListener<IsFavBloc, IsFavState>(
+              listener: (context, state) {
+                if (state is IsFavSuccessState) {
+                  Navigator.pop(context); // Remove previous screen to avoid stacking
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DetailsMovieScreen(
+                        imageurl: movie.url,
+                        year: movie.year.toString(),
+                        rate: movie.rating.toString(),
+                        title: movie.title.toString(),
+                        descriptionFull: movie.descriptionFull.toString(),
+                        id: movie.id,
+                        imageBackground: movie.mediumCoverImage.toString(),
+                        isSelect: state.isFavorite, // Get updated favorite status
+                      ),
+                    ),
+                  );
+                }
+              },
+              child: Center(child: CircularProgressIndicator()), // Show loading indicator
             ),
           ),
         );
       },
       child: ItemViewMovie(
-        widthscreen: 0.45,
-        heightscreen: 0.3,
+        widthscreen: 0.5,
+        heightscreen: 0.35,
         PathImage: movie.mediumCoverImage ?? '',
         rate: movie.rating.toString(),
       ),

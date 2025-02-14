@@ -15,10 +15,12 @@ import 'package:movie_app/UI/onboarding/onboarding_page4.dart';
 import 'package:movie_app/UI/onboarding/onboarding_page5.dart';
 import 'package:movie_app/UI/onboarding/onboarding_page6.dart';
 import 'package:movie_app/api/AddMovieLoveApi/FavoriteRepository.dart';
+import 'package:movie_app/api/IsFavMovie/IsFavMovieRepository.dart';
 import 'package:movie_app/api/MovieDetailsApi/MovieDetailsRepository.dart';
 import 'package:movie_app/api/ProfileApi/ProfileRepository.dart';
 import 'package:movie_app/api/Signin%20Api/LoginRepository.dart';
 import 'package:movie_app/api/SignupApi/SignupRepository.dart';
+import 'package:movie_app/api/removeMoveLove/RemoveMoveLove.dart';
 import 'package:movie_app/bloc/AddFavoriteMoveBloc/add_favorite_movie_bloc.dart';
 import 'package:movie_app/bloc/DeleteBloc/delete_bloc.dart';
 import 'package:movie_app/bloc/LanguageBloc/language_bloc.dart';
@@ -27,7 +29,9 @@ import 'package:movie_app/bloc/LoginBloc/login_bloc.dart';
 import 'package:movie_app/bloc/MovieDetailsBloc/movie_details_bloc.dart';
 import 'package:movie_app/bloc/OnboardingBloc/onboarding__bloc.dart';
 import 'package:movie_app/bloc/createAccountBloc/create_account_bloc.dart';
+import 'package:movie_app/bloc/isFavoriteMovieBloc/is_favorite_movie_bloc.dart';
 import 'package:movie_app/bloc/profileBloc/DataProfile_bloc.dart';
+import 'package:movie_app/bloc/removeFavoriteMoveBloc/remove_favorite_movie_bloc.dart';
 import 'package:movie_app/bloc/resetpasswordBloc/reset_password_bloc.dart';
 
 void main() async {
@@ -37,8 +41,8 @@ void main() async {
   final Repositoryprofile = ProfileRepository();
   final RepositoryaddMovie = FavoriteRepository();
   final RepositoryDetailsMovie = MovieRepository();
-
-
+  final RepositoryremoveMovie = removeFavoriteRepository();
+  final RepositoryIsFavMovie = IsFavMovieRepository();
   runApp(
     MultiBlocProvider(
       providers: [
@@ -51,6 +55,8 @@ void main() async {
         BlocProvider(create: (context) => ResetPasswordBloc(loginRepository: RepositoryLogin)),
         BlocProvider(create: (context) => FavoriteBloc(RepositoryaddMovie)),
         BlocProvider(create: (context) => MovieBloc(RepositoryDetailsMovie)),
+        BlocProvider(create: (context) => removeFavoriteBloc(RepositoryremoveMovie)),
+        BlocProvider(create: (context) => IsFavBloc(RepositoryIsFavMovie)),
 
       ],
       child: MyApp(),

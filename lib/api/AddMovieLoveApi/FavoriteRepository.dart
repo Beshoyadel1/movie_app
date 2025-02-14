@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:movie_app/api/ApiValue.dart';
 import 'package:movie_app/api/AddMovieLoveApi/ModelAddMovie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -7,17 +7,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 class FavoriteRepository {
-  Future<String?> getAuthToken() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString("auth_token");
-  }
-
   Future<String> addFavorite(MovieAddFavourite movie) async {
-    final token = await getAuthToken();
+    final token = await ApiValue.getAuthToken();
     if (token == null) throw Exception("User not authenticated");
 
     final response = await http.post(
-      Uri.parse("https://route-movie-apis.vercel.app/favorites/add"),
+      Uri.parse("${ApiValue.baseUrl}/favorites/add"),
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer $token",
