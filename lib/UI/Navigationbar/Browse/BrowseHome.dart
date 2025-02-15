@@ -46,7 +46,7 @@ class _BrowseHomeState extends State<BrowseHome> {
                 }).toList(),
               ),
             ),
-            MovieGridView(),
+            MovieGridView(filterGenre: MovieList.MoviesListTypes[selectindex]),
           ],
         ),
       ),

@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<MovieBloc>().add(FetchMovies()); // Fetch movies
+    context.read<MovieBloc>().add(FetchMovies());
   }
 
   @override
@@ -45,7 +45,13 @@ class _HomeScreenState extends State<HomeScreen> {
           SingleChildScrollView(
             child: Column(
               children: [
+                SizedBox(
+                  height: height*0.03,
+                ),
                 Image.asset(ImagePath.AvailableNow),
+                SizedBox(
+                  height: height*0.03,
+                ),
                 BlocBuilder<MovieBloc, MovieState>(
                   builder: (context, state) {
                     if (state is MovieLoading) {

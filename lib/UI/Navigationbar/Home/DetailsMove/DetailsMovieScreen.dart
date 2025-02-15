@@ -50,6 +50,7 @@ class _DetailsMovieScreenState extends State<DetailsMovieScreen> {
       year: widget.year,
     );
     var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
 
     @override
     void initState() {
@@ -190,7 +191,9 @@ class _DetailsMovieScreenState extends State<DetailsMovieScreen> {
                           borderRadius: BorderRadius.circular(13),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        _launchURL(widget.imageurl);
+                      },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -209,7 +212,6 @@ class _DetailsMovieScreenState extends State<DetailsMovieScreen> {
                       ListViewRate(PathImage: ImagePath.star, value: '7.5'),
                     ],
                   ),
-                  SizedBox(height: height * 0.02),
                   Image.network(widget.imageBackground),
                 ],
               ),

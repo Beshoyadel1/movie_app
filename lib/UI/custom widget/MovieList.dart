@@ -19,16 +19,16 @@ class MovieList {
     'Action',
     'Adventure',
     'Animation',
-    'Biography',
-    "Drama",
-    "Horror",
-    "Romance",
-    "Thriller"
-    "Animation",
-    "Comedy",
-    "Fantasy",
-    "Horror",
-    "Documentary",
-    "Music"
+    'Family',
+    'Drama',
+    'Horror',
+    'Romance',
+    'Thriller',
+    'Animation',
+    'Comedy',
+    'Fantasy',
+    'Horror',
+    'Documentary',
+    'Music'
   ];
 }

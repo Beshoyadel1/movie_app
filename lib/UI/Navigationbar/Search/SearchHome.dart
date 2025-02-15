@@ -12,18 +12,16 @@ class SearchHome extends StatefulWidget {
 }
 
 class _SearchHomeState extends State<SearchHome> {
+  String searchQuery = '';
+
   @override
   Widget build(BuildContext context) {
-    var height = MediaQuery.of(context).size.height;
-    var width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: AppColors.blackcolor,
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(
-              height: height*0.03,
-            ),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.03),
             Container(
               padding: EdgeInsets.all(10),
               margin: EdgeInsets.all(10),
@@ -34,17 +32,19 @@ class _SearchHomeState extends State<SearchHome> {
               child: TextField(
                 style: Fontspath.w400Inter20(color: AppColors.whitecolor),
                 decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.search),
-                  prefixIconColor: AppColors.whitecolor,
+                  prefixIcon: Icon(Icons.search, color: AppColors.whitecolor),
                   hintText: 'Search',
                   hintStyle: TextStyle(color: Colors.white),
                   border: InputBorder.none,
                 ),
-                onTap: (){},
+                onChanged: (value) {
+                  setState(() {
+                    searchQuery = value;
+                  });
+                },
               ),
-        
             ),
-            MovieGridView(),
+            MovieGridView(searchQuery: searchQuery),
           ],
         ),
       ),

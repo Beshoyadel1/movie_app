@@ -11,7 +11,10 @@ import 'package:movie_app/bloc/isFavoriteMovieBloc/is_favorite_movie_event.dart'
 import 'package:movie_app/bloc/isFavoriteMovieBloc/is_favorite_movie_state.dart';
 
 class MovieGridView extends StatefulWidget {
-  const MovieGridView({super.key});
+  final String? filterGenre;
+  final String? searchQuery;
+
+  const MovieGridView({super.key, this.filterGenre, this.searchQuery});
 
   @override
   State<MovieGridView> createState() => _MovieGridViewState();
@@ -21,7 +24,7 @@ class _MovieGridViewState extends State<MovieGridView> {
   @override
   void initState() {
     super.initState();
-    context.read<MovieBloc>().add(FetchMovies()); // Trigger Bloc event
+    context.read<MovieBloc>().add(FetchMovies());
   }
 
   @override
@@ -33,8 +36,16 @@ class _MovieGridViewState extends State<MovieGridView> {
         } else if (state is MovieError) {
           return Center(child: Text('Error: ${state.message}'));
         } else if (state is MovieLoaded) {
-          if (state.movies.isEmpty) {
-            return Center(child: Text('No movies available.'));
+          var filteredMovies = state.movies.where((movie) {
+            bool matchesGenre = widget.filterGenre == null ||
+                movie.genres.contains(widget.filterGenre);
+            bool matchesSearch = widget.searchQuery == null ||
+                movie.title.toLowerCase().contains(widget.searchQuery!.toLowerCase());
+            return matchesGenre && matchesSearch;
+          }).toList();
+
+          if (filteredMovies.isEmpty) {
+            return Center(child: Text('No movies found.'));
           }
 
           return GridView.builder(
@@ -42,14 +53,14 @@ class _MovieGridViewState extends State<MovieGridView> {
             physics: NeverScrollableScrollPhysics(),
             padding: EdgeInsets.all(8),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2, // Two items per row
-              childAspectRatio: 0.7, // Aspect ratio for proper layout
+              crossAxisCount: 2,
+              childAspectRatio: 0.7,
               crossAxisSpacing: 8,
               mainAxisSpacing: 8,
             ),
-            itemCount: state.movies.length,
+            itemCount: filteredMovies.length,
             itemBuilder: (context, index) {
-              return _buildMovieItem(context, state.movies[index]);
+              return _buildMovieItem(context, filteredMovies[index]);
             },
           );
         }
@@ -68,7 +79,7 @@ class _MovieGridViewState extends State<MovieGridView> {
             builder: (context) => BlocListener<IsFavBloc, IsFavState>(
               listener: (context, state) {
                 if (state is IsFavSuccessState) {
-                  Navigator.pop(context); // Remove previous screen to avoid stacking
+                  Navigator.pop(context);
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -80,13 +91,13 @@ class _MovieGridViewState extends State<MovieGridView> {
                         descriptionFull: movie.descriptionFull.toString(),
                         id: movie.id,
                         imageBackground: movie.mediumCoverImage.toString(),
-                        isSelect: state.isFavorite, // Get updated favorite status
+                        isSelect: state.isFavorite,
                       ),
                     ),
                   );
                 }
               },
-              child: Center(child: CircularProgressIndicator()), // Show loading indicator
+              child: Center(child: CircularProgressIndicator()),
             ),
           ),
         );

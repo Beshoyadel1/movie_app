@@ -1,6 +1,7 @@
           import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
           import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
           import 'package:flutter_bloc/flutter_bloc.dart';
           import 'package:flutter_gen/gen_l10n/app_localizations.dart';
           import 'package:movie_app/UI/Auth/login.dart';
@@ -239,6 +240,10 @@ import 'package:movie_app/UI/custom%20widget/AvatarList.dart';
                   keyboardType: TextInputType.phone,
                 style: TextStyle(color: AppColors.whitecolor),
                 controller: _phoneNumberController,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                    LengthLimitingTextInputFormatter(11),
+                  ],
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return "Enter Phone Number";
