@@ -6,10 +6,8 @@ import 'package:http/http.dart' as http;
 
 class ProfileRepository {
   Future<ProfileResponse?> fetchUserProfile() async {
-    final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString("auth_token");
-
-    if (token == null) return null;
+    final token = await ApiValue.getAuthToken();
+    if (token == null) throw Exception("User not authenticated");
 
     final response = await http.get(
       Uri.parse("${ApiValue.baseUrl}/profile"),
@@ -27,13 +25,8 @@ class ProfileRepository {
   }
 
   Future<bool> updateProfile({String? name, String? phone, int? avatarId}) async {
-    final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString("auth_token");
-
-    if (token == null) {
-      print("Error: No auth token found.");
-      return false;
-    }
+    final token = await ApiValue.getAuthToken();
+    if (token == null) throw Exception("User not authenticated");
 
     final response = await http.patch(
       Uri.parse("${ApiValue.baseUrl}/profile"),

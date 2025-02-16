@@ -242,10 +242,31 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   void deleteAccount() async {
-    final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('auth_token');
-    if (token != null) {
-      context.read<DeleteAccountBloc>().add(DeleteAccountRequested(token));
+    bool confirmDelete = await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Are you sure?"),
+        content: Text("Do you really want to delete your account? This action cannot be undone."),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text("No"),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: Text("Yes", style: TextStyle(color:AppColors.redcolor)),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmDelete == true) {
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('auth_token');
+      if (token != null) {
+        context.read<DeleteAccountBloc>().add(DeleteAccountRequested(token));
+      }
     }
   }
+
 }

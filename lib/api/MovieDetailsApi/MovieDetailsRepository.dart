@@ -1,11 +1,12 @@
 import 'dart:convert';
 
+import 'package:movie_app/api/ApiValue.dart';
 import 'package:movie_app/api/MovieDetailsApi/ModelDetailsMovie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 class MovieRepository {
-  final String apiUrl = "https://yts.mx/api/v2/list_movies.json?quality=3D";
+  final String apiUrl = ApiValue.movieItems;
 
   Future<List<Movies>> fetchMovies() async {
     final prefs = await SharedPreferences.getInstance();
