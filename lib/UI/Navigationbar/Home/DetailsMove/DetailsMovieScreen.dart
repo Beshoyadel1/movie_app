@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_app/api/removeMoveLove/RemoveMoveLove.dart';
 import 'package:movie_app/bloc/isFavoriteMovieBloc/is_favorite_movie_bloc.dart';
 import 'package:movie_app/bloc/isFavoriteMovieBloc/is_favorite_movie_event.dart';
 import 'package:movie_app/bloc/isFavoriteMovieBloc/is_favorite_movie_state.dart';
@@ -7,7 +6,6 @@ import 'package:movie_app/bloc/removeFavoriteMoveBloc/remove_favorite_movie_bloc
 import 'package:movie_app/bloc/removeFavoriteMoveBloc/remove_favorite_movie_event.dart';
 import 'package:movie_app/bloc/removeFavoriteMoveBloc/remove_favorite_movie_state.dart';
 import 'package:flutter/material.dart';
-import 'package:movie_app/api/AddMovieLoveApi/FavoriteRepository.dart';
 import 'package:movie_app/bloc/AddFavoriteMoveBloc/add_favorite_movie_bloc.dart';
 import 'package:movie_app/bloc/AddFavoriteMoveBloc/add_favorite_movie_event.dart';
 import 'package:movie_app/bloc/AddFavoriteMoveBloc/add_favorite_movie_state.dart';

@@ -77,7 +77,7 @@ class MyApp extends StatelessWidget {
           supportedLocales: AppLocalizations.supportedLocales,
           locale: Locale(state.languageCode),
           themeMode: ThemeMode.dark,
-          initialRoute: HomeNavigationbar.RouteName,
+          initialRoute: onboarding_page1.RouteName,
           routes: {
             onboarding_page1.RouteName: (context) => onboarding_page1(),
             onboarding_page2.RouteName: (context) => onboarding_page2(),
