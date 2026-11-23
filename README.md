@@ -1,3 +1,4 @@
+<img width="600" height="600" alt="6-profile" src="https://github.com/user-attachments/assets/586d7f9a-93ee-411a-9a82-1a16b211ff6a" />
 # Movie App
 
 A Flutter movie discovery app: browse popular and top-rated titles, search the catalog, and keep your own favorites list and watchlist. Fully localized in English and Arabic.
